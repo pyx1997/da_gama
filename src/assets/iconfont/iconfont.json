@@ -1,0 +1,114 @@
+{
+  "id": "1892508",
+  "name": "admin",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6789071",
+      "name": "采购管理",
+      "font_class": "caigouguanli-",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "7578787",
+      "name": "会议室",
+      "font_class": "huiyishi",
+      "unicode": "e7d6",
+      "unicode_decimal": 59350
+    },
+    {
+      "icon_id": "10231683",
+      "name": "转正",
+      "font_class": "zhuanzheng",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "14718689",
+      "name": "tx-fill-六边形",
+      "font_class": "tx-fill-liubianxing",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "14718729",
+      "name": "tx-六边形",
+      "font_class": "tx-liubianxing",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "8710540",
+      "name": "KPI管理",
+      "font_class": "KPIguanli",
+      "unicode": "e703",
+      "unicode_decimal": 59139
+    },
+    {
+      "icon_id": "10149979",
+      "name": "离职",
+      "font_class": "lizhi1",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "11134721",
+      "name": "转正",
+      "font_class": "zhuanzheng1",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "1263386",
+      "name": "员工入职",
+      "font_class": "yuangongruzhi",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "4198413",
+      "name": "邮件",
+      "font_class": "youjian",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "8728342",
+      "name": "会议",
+      "font_class": "huiyi",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "11019847",
+      "name": "采购员",
+      "font_class": "caigouyuan",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "13952079",
+      "name": "宝贝考勤",
+      "font_class": "baobeikaoqin",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "14745811",
+      "name": "KPI分析",
+      "font_class": "KPIfenxi",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "15304881",
+      "name": "招聘",
+      "font_class": "zhaopin",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    }
+  ]
+}

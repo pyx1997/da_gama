@@ -1,0 +1,49 @@
+html,
+body {
+  font-size: 5.2vw;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+img {
+  vertical-align: middle;
+}
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+p {
+  margin: 0;
+  padding: 0;
+}
+.wrap {
+  width: 100%;
+  height: 100%;
+}
+.container {
+  padding: 40px 0 0 0px;
+}
+.aside {
+  margin-top: 60px;
+  padding: 0px 0 0 40px;
+}
+.aside .name {
+  height: 56px;
+  font-size: 22px;
+  font-weight: 500;
+}
+.aside-item {
+  width: 160px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.right {
+  flex: 1;
+  height: 100%;
+  overflow: auto;
+}

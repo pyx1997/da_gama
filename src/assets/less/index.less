@@ -1,0 +1,224 @@
+@mainColor: #2277DA;
+@sCA1: #fff;
+@sCA2: #262626;
+@sCA3: #f2f2f2;
+@sCA4: #666666;
+@sCA5: #797979;
+@sCA6: #989898;
+@sCA7: rgba(217, 217, 217, 1);
+@sCA8: #333;
+@blue1:#0064B6;
+@blue2: #E5F2FF;
+@blue3: #0000FF;
+@blue4: #00BFBF;
+
+@green1: #03BF16;
+@green2: #37ccb2;
+@red1: #D9001B;
+@red2: #e27772;
+@purple1: #af70ca;
+@or1: #fb9157;
+.border(@color) {
+    border: 1px solid @color;
+}
+.border-bottom(@color) {
+    border-bottom: 1px solid @color;
+}
+.bgc-main {
+    background-color: @mainColor;
+}
+.bgc-sCA1 {
+    background-color: @sCA1;
+}
+.bgc-sCA7 {
+    background-color: @sCA7;
+}
+.bgc-opacity {
+    background: rgba(0,0,0,0.4);
+}
+.bgc-blue2 {
+    background-color: @blue2;
+}
+.bgc-blue4 {
+    background-color: @blue4;
+}
+.bgc-green1 {
+    background-color: @green1;
+}
+.bgc-green2 {
+    background-color: @green2;
+}
+.bgc-or1 {
+    background-color: @or1;
+}
+.bgc-purple1 {
+    background-color: @purple1;
+}
+.bgc-red2 {
+    background-color: @red2;
+}
+.color-main {
+    color: @mainColor;
+}
+.color-sCA1 {
+    color: @sCA1;
+}
+.color-sCA2 {
+    color: @sCA2;
+}
+.color-sCA4 {
+    color: @sCA4;
+}
+.color-sCA5 {
+    color: @sCA5;
+}
+.color-sCA6 {
+    color: @sCA6;
+}
+.color-sCA7 {
+    color: @sCA7
+}
+.color-sCA8 {
+    color: @sCA8;
+}
+.color-blue1 {
+    color: @blue1;
+}
+.color-blue3 {
+    color: @blue3
+}
+.color-blue4 {
+    color: @blue4
+}
+.color-green1 {
+    color: @green1
+}
+.color-green2 {
+    color: @green2
+}
+.color-or1 {
+    color: @or1
+}
+.color-red2 {
+    color: @red2
+}
+.color-purple1 {
+    color: @purple1
+}
+.color-red1 {
+    color: @red1
+}
+.border-main {
+    .border(@mainColor)
+}
+.border-sCA3 {
+    .border(@sCA3)
+}
+.border-sCA5 {
+    .border(@sCA5)
+}
+.border-sCA7 {
+    .border(@sCA7)
+}
+.borderB-blue1 {
+    .border-bottom(@blue1)
+}
+.borderB-main {
+    .border-bottom(@mainColor)
+}
+.borderB-sCA7 {
+    .border-bottom(@sCA7)
+}
+.borderC-sCA5 {
+    border-style: solid;
+    border-color: @sCA5;
+}
+.borderC-sCA7 {
+    border-style: solid;
+    border-color: @sCA7;
+}
+.bgc-sCA2 {
+    background-color: @sCA2;
+}
+.bgc-sCA3 {
+    background-color: @sCA3;
+}
+.bgc-sCA7 {
+    background-color: @sCA7;
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+.row-jb {
+    .flex-row;
+    justify-content: space-between;
+}
+.row-jc {
+    .flex-row;
+    justify-content: center;
+}
+.col-jc {
+    .flex-col;
+    justify-content: center;
+}
+.row-ac {
+    .flex-row;
+    align-items: center;
+}
+.col-ac {
+    .flex-col;
+    align-items: center;
+}
+.row-jc-ac {
+    .row-ac;
+    justify-content: center;
+}
+.row-jb-ac {
+    .row-ac;
+    justify-content: space-between;
+}
+.col-jc-ac {
+    .col-jc;
+    align-items: center;
+}
+.row-js-ac {
+    .row-ac;
+    justify-content: flex-start;
+}
+.row-ja {
+    .flex-row;
+    justify-content: space-around;
+}
+.row-je {
+    .flex-row;
+    justify-content: flex-end;
+}
+
+.time .el-input__inner {
+    .border(@sCA7);
+    color: @sCA5;
+    padding: 0 10px !important;
+    line-height: 28px !important;
+    height: 30px !important;
+    width: 260px !important;
+    border-radius: 0px !important;
+}
+.time .el-date-editor .el-range__icon {
+    color: @sCA5 !important;
+    line-height: 28px;
+}
+.time .el-date-editor .el-range-input {
+    color: @sCA5 !important;
+    line-height: 28px;
+}
+.time .el-date-editor .el-range-separator {
+    line-height: 28px !important;
+}
+// .searchBox .inputBox {
+//     .border(@sCA7);
+// }
