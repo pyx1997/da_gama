@@ -6,7 +6,7 @@
                 <!-- <i class="download el-icon-download color-sCA8" title="下载原文件" @click="download"></i> -->
             </div>
             <div class="systemItems row-ja">
-                <div class="systemItem col-ac email" v-for="(item,index) in systemList" :key="index" @click="clickSystem(item.img,item.text,item.file,item.fileName)">
+                <div class="systemItem col-ac email" v-for="(item,index) in systemList" :key="index" @click="clickSystem(item.text,item.file,item.fileName)">
                     <div class="iconBox row-jc-ac"> 
                         <div class="filltx row-jc-ac" :class="item.color"></div>
                         <!-- <div class="iconfont icon-tx-fill-liubianxing filltx row-jc-ac" :class="item.color">
@@ -73,6 +73,7 @@
 </template>
 <script>
 var timer;
+// var img1 = 'http://192.168.53.250/download/img/admin/periodical/cover1.png'
 var img1 = require('../../assets/img/periodical/cover1.png')
 var img2 = require('../../assets/img/periodical/cover2.png')
 var img3 = require('../../assets/img/periodical/cover3.png')
@@ -80,16 +81,9 @@ var img4 = require('../../assets/img/periodical/cover4.png')
 var img5 = require('../../assets/img/periodical/cover5.png')
 var img6 = require('../../assets/img/periodical/cover6.png')
 var img7 = require('../../assets/img/periodical/cover7.png')
+var img8 = require('../../assets/img/periodical/cover8.png')
 
-var email = require('../../assets/img/admin/system/email.jpg')
-var kpI = require('../../assets/img/admin/system/kpI.jpg')
-var check = require('../../assets/img/admin/system/check.jpg')
-var dimission = require('../../assets/img/admin/system/dimission.jpg')
-var entry = require('../../assets/img/admin/system/entry.jpg')
-var invite = require('../../assets/img/admin/system/invite.jpg')
-var meeting = require('../../assets/img/admin/system/meeting.jpg')
-var purchase = require('../../assets/img/admin/system/purchase.jpg')
-var regular = require('../../assets/img/admin/system/zhuanz.jpg')
+
 
 export default {
     data () {
@@ -99,17 +93,18 @@ export default {
             animate: false,
             interval: null,
             systemList: [
-                {text: '邮件管理',icon: 'icon-youjian',color: 'bgc-blue4',class: '',img: email,file: 'email.docx',fileName: 'MRF邮件管理制度.pdf'},
-                {text: 'KPI考核',icon: 'icon-KPIguanli',color: 'bgc-purple1',class: '',img: kpI,file: 'kpI.docx',fileName: 'KPI考核管理制度.pdf'},
-                {text: '入职管理',icon: 'icon-yuangongruzhi',color: 'bgc-or1',class: '',img: entry,file: 'entry.docx',fileName: 'MRF入职管理制度.pdf'},
-                {text: '转正管理',icon: 'icon-zhuanzheng1',color: 'bgc-green2',class: '',img: regular,file: 'regular.docx',fileName: 'MRF转正管理制度.pdf'},
-                {text: '离职管理',icon: 'icon-lizhi1',color: 'bgc-red2',class: '',img: dimission,file: 'dimission.docx',fileName: 'MRF离职管理制度.pdf'},
-                {text: '考勤管理',icon: 'icon-baobeikaoqin',color: 'bgc-purple1',class: '',img: check,file: 'check.docx',fileName: 'MRF考勤管理制度.pdf'},
-                {text: '会议管理',icon: 'icon-huiyishi',color: 'bgc-or1',class: '',img: meeting,file: 'meeting.docx',fileName: 'MRF会议管理制度.pdf'},
-                {text: '采购管理',icon: 'icon-caigouguanli-',color: 'bgc-green2',class: '',img: purchase,file: 'purchase.docx',fileName: 'MRF采购管理制度.pdf'},
-                {text: '招聘管理',icon: 'icon-zhaopin',color: 'bgc-red2',class: '',img: invite,file: 'invite.docx',fileName: 'MRF招聘管理制度终版.pdf'},
+                {text: '邮件管理',icon: 'icon-youjian',color: 'bgc-blue4',class: '',file: 'email.docx',fileName: 'MRF邮件管理制度.pdf'},
+                {text: 'KPI考核',icon: 'icon-KPIguanli',color: 'bgc-purple1',class: '',file: 'kpI.docx',fileName: 'KPI考核管理制度.pdf'},
+                {text: '入职管理',icon: 'icon-yuangongruzhi',color: 'bgc-or1',class: '',file: 'entry.docx',fileName: 'MRF入职管理制度.pdf'},
+                {text: '转正管理',icon: 'icon-zhuanzheng1',color: 'bgc-green2',class: '',file: 'regular.docx',fileName: 'MRF转正管理制度.pdf'},
+                {text: '离职管理',icon: 'icon-lizhi1',color: 'bgc-red2',class: '',file: 'dimission.docx',fileName: 'MRF离职管理制度.pdf'},
+                {text: '考勤管理',icon: 'icon-baobeikaoqin',color: 'bgc-purple1',class: '',file: 'check.docx',fileName: 'MRF考勤管理制度.pdf'},
+                {text: '会议管理',icon: 'icon-huiyishi',color: 'bgc-or1',class: '',file: 'meeting.docx',fileName: 'MRF会议管理制度.pdf'},
+                {text: '采购管理',icon: 'icon-caigouguanli-',color: 'bgc-green2',class: '',file: 'purchase.docx',fileName: 'MRF采购管理制度.pdf'},
+                {text: '招聘管理',icon: 'icon-zhaopin',color: 'bgc-red2',class: '',file: 'invite.docx',fileName: 'MRF招聘管理制度终版.pdf'},
             ],
             periodicals: [
+                {num: '第八期',theme: '粽情端午 香颂天成',img: img8,mark: 8},
                 {num: '第七期',theme: 'MRF 11 周年',img: img7,mark: 7},
                 {num: '第六期',theme: '向最美劳动者致敬',img: img6,mark: 6},
                 {num: '第五期',theme: '众志成城 抗击疫情',img: img5,mark: 5},
@@ -182,12 +177,12 @@ export default {
                 }
             })
         },
-        clickSystem(img,text,file,fileName) {
+        clickSystem(text,file,fileName) {
             // console.log('file1:',file)
             this.$router.push({
                 name:'systemDetail',
                 params: {
-                    img: img,
+                    // img: img,
                     name:text+'制度',
                     file: file,
                     fileName: fileName
@@ -276,7 +271,7 @@ export default {
     width: 94%;
 }
 .periodicalItems {
-    width: 140%;
+    width: 160%;
     position: relative;
     margin-top: 20px;
     /* width: 1500px; */
@@ -290,7 +285,7 @@ export default {
 }
 .period2 {
     /* transition: left 1s; */
-    margin-left: -40%;
+    margin-left: -60%;
 }
 .promoteBox {
     width: 40%;

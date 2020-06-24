@@ -28,13 +28,13 @@ export default {
         // this.imgSrc = require('../../assets/img/periodical/periodical'+(this.$route.query.index+1)+'.jpg')
         this.name = this.$route.params.name
         this.fileName = 'http://192.168.53.250/download/admin/system/pdf/'+this.$route.params.fileName
-        this.file = 'http://192.168.53.250/download/admin/system/'+this.$route.params.file
+        // this.file = 'http://192.168.53.250/download/admin/system/'+this.$route.params.file
         // console.log("file2:",this.file)
     },
     methods: {
-        download() {
-            window.location.href=this.file
-        }
+        // download() {
+        //     window.location.href=this.file
+        // }
     }
 }
 </script>

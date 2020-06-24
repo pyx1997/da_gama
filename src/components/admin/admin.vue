@@ -14,8 +14,8 @@ export default {
     data() {
         return {
             asideList: [
-                {text: '行政首页',path: '/index/admin/adminIndex',selected: true},
-                {text: 'IT首页',path: '/index/admin/itIndex',selected: false}
+                {text: 'IT首页',path: '/index/admin/itIndex',selected: true},
+                {text: '行政首页',path: '/index/admin/adminIndex',selected: false},
             ]
         }
     },

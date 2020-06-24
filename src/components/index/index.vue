@@ -3,7 +3,7 @@
         <!-- <icon name="beer"></icon> -->
         <div class="nav bgc-sCA2 color-sCA1 row-ac">
             <img src="@/assets/img/mrf.png" class="logo"/>
-            <div v-for="(item,index) in navList" :key="index" class="nav-list" @click="clickNavItem(index)" :class="{'selected' : item.selected}">
+            <div v-for="(item,index) in navList" :key="index" class="nav-list bgc-sCA2" @click="clickNavItem(index)" :class="{'selected' : item.selected}">
                 <div class="nav-item">{{item.text}}</div>
                 <!-- <div class="underline bgc-main" v-if="item.selected"></div> -->
             </div>
@@ -24,7 +24,7 @@ export default {
                 {text: '订舱',selected: false,path: '/index/book/bookList'},
                 {text: '补料',selected: false,path: '/index/blank'},
                 {text: 'VGM',selected: false,path: '/index/blank'},
-                {text: '行政',selected: false,path: '/index/admin/adminIndex'},
+                {text: '行政',selected: false,path: '/index/admin/itIndex'},
                 {text: '财务',selected: false,path: '/index/blank'},
                 {text: '论坛',selected: false,path: '/index/forum'},
                 {text: 'wait4U',selected: false,path: '/index/blank'},

@@ -5,11 +5,11 @@
         
         <div class="echartsBox pieBox row-jb">
             <div class="pieWrap border-sCA7">
-                <div class="title color-sCA4">各团队当日edi订舱量</div>
+                <div class="title color-sCA4">各团队当日 EDI 订舱量</div>
                 <pie></pie>
             </div>
             <div class="pieWrap border-sCA7">
-                <div class="title color-sCA4">各船东edi数据</div>
+                <div class="title color-sCA4">各船东 EDI 数据</div>
                 <ship-pie></ship-pie>
             </div>
         </div>

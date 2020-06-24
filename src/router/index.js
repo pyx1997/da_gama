@@ -20,6 +20,7 @@ import InformList from '@/components/admin/informList'
 import ItIndex from '@/components/admin/itIndex'
 import PeriodicalDetail from '@/components/admin/periodicalDetail'
 import SystemDetail from '@/components/admin/systemDetail'
+import TrainDetail from '@/components/admin/trainDetail'
 
 // 船期
 import SailSchedule from '@/components/sailSchedule/index'
@@ -60,6 +61,7 @@ const router = new Router({
             {path: 'periodicalDetail',name: 'periodicalDetail',component: PeriodicalDetail},
             {path: 'systemDetail',name: 'systemDetail',component: SystemDetail},
             {path: 'itIndex',component: ItIndex},
+            {path: 'trainDetail',component: TrainDetail, name: 'trainDetail'}
           ]
         },
         
