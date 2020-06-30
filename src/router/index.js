@@ -21,6 +21,8 @@ import ItIndex from '@/components/admin/itIndex'
 import PeriodicalDetail from '@/components/admin/periodicalDetail'
 import SystemDetail from '@/components/admin/systemDetail'
 import TrainDetail from '@/components/admin/trainDetail'
+import QuestionList from '@/components/admin/questionList'
+import QuestionDetail from '@/components/admin/questionDetail'
 
 // 船期
 import SailSchedule from '@/components/sailSchedule/index'
@@ -61,7 +63,9 @@ const router = new Router({
             {path: 'periodicalDetail',name: 'periodicalDetail',component: PeriodicalDetail},
             {path: 'systemDetail',name: 'systemDetail',component: SystemDetail},
             {path: 'itIndex',component: ItIndex},
-            {path: 'trainDetail',component: TrainDetail, name: 'trainDetail'}
+            {path: 'trainDetail',component: TrainDetail, name: 'trainDetail'},
+            {path: 'questionList',component: QuestionList, name: 'questionList'},
+            {path: 'questionDetail',component: QuestionDetail, name: 'questionDetail'}
           ]
         },
         

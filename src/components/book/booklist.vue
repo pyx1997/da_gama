@@ -224,15 +224,18 @@ export default {
                         item.mbftime = this.changeDate(new Date(item.mbftime*1000))
                         item.mbfbookingtime = this.changeDate(new Date(item.mbfbookingtime*1000))
                     })
+                    localStorage.setItem('bookList',JSON.stringify(this.listData))
                 }else {
+                    this.listData = JSON.parse(localStorage.getItem('bookList'))
                     this.$message({
-                        message: '请求数据失败，请刷新页面',
+                        message: '请求数据失败，未获取到最新数据',
                         type: 'warning'
                     })
                 }
             }).catch(() => {
+                this.listData = JSON.parse(localStorage.getItem('bookList'))
                 this.$message({
-                    message: '连接服务器失败，未获取到数据',
+                    message: '连接服务器失败，未获取到最新数据',
                     type: 'warning'
                 })
             })

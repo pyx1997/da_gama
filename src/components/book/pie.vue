@@ -97,7 +97,7 @@ export default {
         getList() {
             this.$http.post('/index/djamaecharts/dept').then(res => {
                 if(res.status == 200 && res.data.ret == 200) {
-                    console.log(res.data.data)
+                    // console.log(res.data.data)
                     var data = []
                     res.data.data.list.forEach((item) => {
                         data.push(item)

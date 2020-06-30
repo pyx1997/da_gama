@@ -58,5 +58,6 @@ export default {
     line-height: 24px;
     text-indent: 2em;
     padding: 10px 2px;
+    white-space: wrap;
 }
 </style>

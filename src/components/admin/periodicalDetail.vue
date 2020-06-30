@@ -30,8 +30,15 @@ export default {
     },
     mounted() {
         // this.imgSrc = require('../../assets/img/periodical/periodical'+this.$route.params.index+'.jpg')
-        this.name = this.$route.params.name
-        this.file = 'http://192.168.53.250/download/admin/periodical/'+this.$route.params.name+'.pdf'
+        if(this.$route.params.name) {
+            this.name = this.$route.params.name
+            this.file = 'http://192.168.53.250/download/admin/periodical/'+this.$route.params.name+'.pdf'
+        }else {
+            this.name = JSON.parse(localStorage.getItem('periodical')).name
+            console.log('name:','http://192.168.53.250/download/admin/periodical/'+JSON.parse(localStorage.getItem('periodical')).name)
+            this.file = 'http://192.168.53.250/download/admin/periodical/'+JSON.parse(localStorage.getItem('periodical')).name+'.pdf'
+        }
+        
         // console.log('file:',this.file)
     },
     methods: {

@@ -25,12 +25,18 @@ export default {
         }
     },
     created() {
-        // this.imgSrc = this.$route.params.img
-        // this.imgSrc = require('../../assets/img/periodical/periodical'+(this.$route.query.index+1)+'.jpg')
-        this.name = this.$route.params.name
-        this.type = this.$route.params.type
-        this.imgSrc = 'http://192.168.53.250/download/img/IT/train/'+this.$route.params.img
-        this.file = 'http://192.168.53.250/mv/'+this.$route.params.file
+        if(this.$route.params.name) {
+            this.name = this.$route.params.name
+            this.type = this.$route.params.type
+            this.imgSrc = 'http://192.168.53.250/download/img/IT/train/'+this.$route.params.img
+            this.file = 'http://192.168.53.250/mv/'+this.$route.params.file
+        }else {
+            this.name = JSON.parse(localStorage.getItem('train')).name
+            this.type = JSON.parse(localStorage.getItem('train')).type
+            this.imgSrc = 'http://192.168.53.250/download/img/IT/train/'+JSON.parse(localStorage.getItem('train')).img
+            this.file = 'http://192.168.53.250/mv/'+JSON.parse(localStorage.getItem('train')).file
+        }
+        
         // console.log("file2:",this.file)
     },
     methods: {

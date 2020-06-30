@@ -18,18 +18,21 @@
 export default {
     data() {
         return {
-            imgSrc: '',
+            // imgSrc: '',
             name: '',
             fileName: ''
         }
     },
     created() {
-        this.imgSrc = this.$route.params.img
-        // this.imgSrc = require('../../assets/img/periodical/periodical'+(this.$route.query.index+1)+'.jpg')
-        this.name = this.$route.params.name
-        this.fileName = 'http://192.168.53.250/download/admin/system/pdf/'+this.$route.params.fileName
-        // this.file = 'http://192.168.53.250/download/admin/system/'+this.$route.params.file
-        // console.log("file2:",this.file)
+        if(this.$route.params.name) {
+            // this.imgSrc = this.$route.params.img
+            this.name = this.$route.params.name
+            this.fileName = 'http://192.168.53.250/download/admin/system/pdf/'+this.$route.params.fileName
+        }else {
+            this.name = JSON.parse(localStorage.getItem('system')).name
+            this.fileName = 'http://192.168.53.250/download/admin/system/pdf/'+JSON.parse(localStorage.getItem('system')).fileName
+        }
+        
     },
     methods: {
         // download() {

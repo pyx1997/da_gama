@@ -128,6 +128,11 @@
   display: flex;
   flex-direction: column;
 }
+.row-js {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
 .row-jb {
   display: flex;
   flex-direction: row;

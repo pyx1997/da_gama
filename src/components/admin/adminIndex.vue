@@ -39,6 +39,9 @@
                 <div class="tab borderB-sCA7 row-jb-ac">
                     <div class="tabText borderB-main color-sCA8">岗位晋升</div>
                 </div>
+                <div class="promoteContent">
+                    行政待定
+                </div>
             </div>
         </div>
         <div class="section">
@@ -169,24 +172,26 @@ export default {
         },
         showDetail(index,name) {
             // window.open('http://192.168.53.250/download/admin/periodical/MRF期刊'+name+'.pdf')
+            var obj = {
+                index: index,
+                name: "MRF期刊"+name
+            }
+            localStorage.setItem('periodical',JSON.stringify(obj))
             this.$router.push({
                 name: 'periodicalDetail',
-                params: {
-                    index:index,
-                    name: "MRF期刊"+name
-                }
+                params: obj
             })
         },
         clickSystem(text,file,fileName) {
-            // console.log('file1:',file)
+            var obj = {
+                name:text+'制度',
+                file: file,
+                fileName: fileName
+            }
+            localStorage.setItem('system',JSON.stringify(obj))
             this.$router.push({
                 name:'systemDetail',
-                params: {
-                    // img: img,
-                    name:text+'制度',
-                    file: file,
-                    fileName: fileName
-                }
+                params: obj
             })
         },
         clickLeft() {
@@ -470,5 +475,13 @@ export default {
 }
 li:hover {
     color: #2277DA
+}
+.promoteContent {
+    font-size: 30px;
+    font-weight: 500;
+    height: 290px;
+    line-height: 290px;
+    text-align: center;
+    color: rgba(217, 217, 217, 1);
 }
 </style>

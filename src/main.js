@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import echarts from 'echarts'
 import axios from 'axios'
+import 'babel-polyfill'
 // import saveAs from 'file-saver'
 // import 'vue-awesome/icons/flag'
 
