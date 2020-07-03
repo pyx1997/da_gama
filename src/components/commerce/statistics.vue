@@ -1,7 +1,7 @@
 <template>
     <div class="wrap container">
         <div class="border-sCA7 echartsBox barBox flex-col">
-            <div class="title color-sCA4">前日业务员订舱 TOP 10</div>
+            <!-- <div class="title color-sCA4">前日业务员订舱 TOP 10</div> -->
             <div class="barBoxInside">
                 <pie></pie>
             </div>
