@@ -34,6 +34,7 @@ export default {
                     left: '70%',
                     y: '4%',
                     icon: 'circle',
+                    itemHeight: 10,
                     textStyle: {
                         fontSize: 12,
                         color: '#989898'
@@ -105,20 +106,35 @@ export default {
                         data.push(item)
                     });
                     this.total = res.data.data.total
+                    localStorage.setItem('bookShipEcharts',JSON.stringify({
+                        total: res.data.data.total,
+                        data: data,
+                        list: res.data.data.list
+                    }))
                     this.draw(data,res.data.data.list)
                     // this.depart = res.data.data.depart;
                     // this.seriesData = res.data.data.teusum
                     // this.draw(res.data.data.depart,res.data.data.teusum)
                     
                 }else {
+                    if(localStorage.getItem('bookShipEcharts')) {
+                        var obj = JSON.parse(localStorage.getItem('bookShipEcharts'))
+                        this.total = obj.total
+                        this.draw(obj.data,obj.list)
+                    }
                     this.$message({
-                        message: '请求数据失败，请刷新页面',
+                        message: '请求数据失败，未获取到最新各船东当日EDI数据',
                         type: 'warning'
                     })
                 }
             }).catch(() => {
+                if(localStorage.getItem('bookShipEcharts')) {
+                    var obj = JSON.parse(localStorage.getItem('bookShipEcharts'))
+                    this.total = obj.total
+                    this.draw(obj.data,obj.list)
+                }
                 this.$message({
-                    message: '连接服务器失败，未获取到数据',
+                    message: '连接服务器失败，未获取到最新各船东当日EDI数据',
                     type: 'warning'
                 })
             })

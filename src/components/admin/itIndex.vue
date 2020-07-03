@@ -14,7 +14,7 @@
                 </div>
                 <el-row class="questionList flex-row">
                     <el-col class="questionItem" :lg='6' :md='6' :sm='8' :xs="12" v-for="(item,index) in questionList" :key="index">
-                        <div class="col-ac">
+                        <div class="col-ac" @click="clickQuestion(item.name,item.list)">
                             <img src="../../assets/img/IT/file.png" class="fileImg">
                             <div class="questionName color-sCA4">{{item.name}}</div>
                         </div>

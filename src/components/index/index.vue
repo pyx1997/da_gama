@@ -47,6 +47,8 @@ export default {
             this.clickNavItem(1)
         }else if(path.search('/admin') != -1) {
             this.clickNavItem(4)
+        }else if(path.search('/commerce') != -1) {
+            // this.clickNavItem(4)
         }else {
             this.clickNavItem(3)
         }

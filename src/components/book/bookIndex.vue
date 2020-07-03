@@ -9,7 +9,7 @@
                 <pie></pie>
             </div>
             <div class="pieWrap border-sCA7">
-                <div class="title color-sCA4">各船东 EDI 数据</div>
+                <div class="title color-sCA4">各船东当日 EDI 数据</div>
                 <ship-pie></ship-pie>
             </div>
         </div>
@@ -18,13 +18,13 @@
             
             <div class="title color-sCA4">订舱日趋视图(默认半年视图)</div>
             <div class="timeType time row-ac">
-                <div class="tab" :class="[timeType == '本周' ? 'border-main color-main' : 'border-sCA7 color-sCA5']" @click="clickTimeType('本周')">本周</div>
-                <div class="tab" :class="[timeType == '本月' ? 'border-main color-main' : 'border-sCA7 color-sCA5']" @click="clickTimeType('本月')">本月</div>
-                <div class="tab" :class="[timeType == '自定义' ? 'border-main color-main' : 'border-sCA7 color-sCA5']" @click="clickTimeType('自定义')">自定义</div>
-                <el-date-picker v-model="timeValue" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']" @change="selectDate"></el-date-picker>
+                <div class="tab" :class="[type == 'week' ? 'border-main color-main' : 'border-sCA7 color-sCA5']" @click="clickTimeType('week')">本周</div>
+                <div class="tab" :class="[type == 'month' ? 'border-main color-main' : 'border-sCA7 color-sCA5']" @click="clickTimeType('month')">本月</div>
+                <div class="tab" :class="[type == 'self' ? 'border-main color-main' : 'border-sCA7 color-sCA5']" @click="clickTimeType('self')">自定义</div>
+                <el-date-picker v-model="timeValue" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']" @change="selectDate" :disabled="type != 'self'"></el-date-picker>
             </div>
             <div class="themeEchart">
-                <river></river>
+                <river :startday="startday" :endday="endday" :type="type"></river>
             </div>
             
         </div>
@@ -44,8 +44,10 @@ import bar from './bar'
 export default {
     data() {
         return {
-            timeType: '本周',
-            timeValue: ''
+            type: 'halfyear',
+            timeValue: '',
+            startday: '',
+            endday: '',
         }
     },
     components: {
@@ -56,9 +58,22 @@ export default {
     },
     methods: {
         clickTimeType(str) {
-            this.timeType = str;
+            if(this.type == str) {
+                this.type = 'halfyear'
+            }else {
+                this.type = str;
+            }
+            
         },
         selectDate() {
+            if(this.timeValue) {
+                this.startday = this.changeDate(this.timeValue[0])
+                this.endday = this.changeDate(this.timeValue[1])
+            }else {
+                this.startday = ''
+                this.endday = ''
+            }
+            
             // console.log('selectDate:',this.changeDate(this.timeValue[0])+' - '+this.changeDate(this.timeValue[1]))
         },
         changeDate(str) {
@@ -81,7 +96,7 @@ export default {
     width: 100%
 }
 .container {
-    overflow: hidden;
+    overflow: auto;
 }
 .timeType {
     margin-bottom: 20px;
@@ -111,7 +126,7 @@ export default {
     height: 242px;
 }
 .themeRiverBox {
-    height: 400px;
+    height: 500px;
 }
 .barBox {
     height: 250px;

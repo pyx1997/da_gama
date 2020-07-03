@@ -3,11 +3,11 @@
         <div class="container flex-col">
             <div class="tab borderB-sCA7 row-jb-ac">
                 <div class="tabText borderB-main color-sCA8">{{name}}</div>
-                <!-- <i class="download el-icon-download color-sCA8" title="下载原文件" @click="download"></i> -->
+                <i class="download el-icon-download color-sCA8" title="下载原文件" @click="download" v-if="ie"></i>
             </div>
             <div class="imgBox">
-                <iframe :src="fileName" frameborder="0" width="100%" height="96%"></iframe>
-                <!-- <img :src="imgSrc"/> -->
+                <iframe :src="fileName" frameborder="0" width="100%" height="96%" v-if="!ie"></iframe>
+                <img :src="imgSrc" v-else/>
             </div>
         </div>
         
@@ -18,12 +18,17 @@
 export default {
     data() {
         return {
-            // imgSrc: '',
+            imgSrc: '',
             name: '',
-            fileName: ''
+            fileName: '',
+            ie: false,
         }
     },
     created() {
+        if (window.ActiveXObject || "ActiveXObject" in window) {
+            this.ie = true
+            this.imgSrc = 'http://192.168.53.250/download/img/admin/system/'+this.$route.params.file+'.jpg'
+        }
         if(this.$route.params.name) {
             // this.imgSrc = this.$route.params.img
             this.name = this.$route.params.name
@@ -35,9 +40,9 @@ export default {
         
     },
     methods: {
-        // download() {
-        //     window.location.href=this.file
-        // }
+        download() {
+            window.location.href=this.fileName
+        }
     }
 }
 </script>

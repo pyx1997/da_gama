@@ -31,6 +31,7 @@ export default {
                     left: '70%',
                     y: '4%',
                     icon: 'circle',
+                    itemHeight: 10,
                     textStyle: {
                         fontSize: 12,
                         color: '#989898'
@@ -42,37 +43,6 @@ export default {
                     type: 'group',               // [ default: image ]用 setOption 首次设定图形元素时必须指定。image, text, circle, sector, ring, polygon, polyline, rect, line, bezierCurve, arc, group,
                     top: '36%',              // 描述怎么根据父元素进行定位。top 和 bottom 只有一个可以生效。如果指定 top 或 bottom，则 shape 里的 y、cy 等定位属性不再生效。『父元素』是指：如果是顶层元素，父元素是 echarts 图表容器。如果是 group 的子元素，父元素就是 group 元素。
                     left: '22%',             // 同上
-                    // children: [
-                    //     {
-                    //         type: 'text',
-                    //         style: {
-                    //             text: '99',
-                    //             fill: '#666',
-                    //             fontSize: 32,
-                    //             fontWeight: 'bold',
-                    //             textAlign: 'center',
-                    //             width: 100
-                    //         }
-                    //     },
-                    //     {
-                    //         type: 'text',
-                    //         style: {
-                    //             text: '当日总量',
-                    //             fill: '#989898',
-                    //             fontSize: 12,
-                    //             fontWeight: 'bold',
-                    //             // x: 12,
-                    //             textAlign: 'center',
-                    //             y: 40
-                    //         }
-                    //     }
-                    // ],
-                    // style: {
-                    //     text: '9999\n当日总数',       // 文本块文字。可以使用 \n 来换行。[ default: '' ]
-                    //     fill: '#666',           // 填充色。
-                    //     fontSize: 16,           // 字体大小
-                    //     fontWeight: 'bold'		// 文字字体的粗细，可选'normal'，'bold'，'bolder'，'lighter'
-                    // }
                 },
                 series: {
                     type: 'pie',
@@ -103,20 +73,32 @@ export default {
                         data.push(item)
                     });
                     this.total = res.data.data.total
+                    localStorage.setItem('bookDepartEcharts',JSON.stringify({
+                        total: res.data.data.total,
+                        data: data,
+                        list: res.data.data.list
+                    }))
                     this.draw(data,res.data.data.list)
-                    // this.depart = res.data.data.depart;
-                    // this.seriesData = res.data.data.teusum
-                    // this.draw(res.data.data.depart,res.data.data.teusum)
                     
                 }else {
+                    if(localStorage.getItem('bookDepartEcharts')) {
+                        var obj = JSON.parse(localStorage.getItem('bookDepartEcharts'))
+                        this.total = obj.total
+                        this.draw(obj.data,obj.list)
+                    }
                     this.$message({
-                        message: '请求数据失败，请刷新页面',
+                        message: '请求数据失败，未获取到最新各团队当日EDI订舱量数据',
                         type: 'warning'
                     })
                 }
             }).catch(() => {
+                if(localStorage.getItem('bookDepartEcharts')) {
+                    var obj = JSON.parse(localStorage.getItem('bookDepartEcharts'))
+                    this.total = obj.total
+                    this.draw(obj.data,obj.list)
+                }
                 this.$message({
-                    message: '连接服务器失败，未获取到数据',
+                    message: '连接服务器失败，未获取到最新各团队当日EDI订舱量数据',
                     type: 'warning'
                 })
             })

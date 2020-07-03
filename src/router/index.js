@@ -24,6 +24,10 @@ import TrainDetail from '@/components/admin/trainDetail'
 import QuestionList from '@/components/admin/questionList'
 import QuestionDetail from '@/components/admin/questionDetail'
 
+// 商务
+import Commerce from '@/components/commerce/commerce'
+import CommerceStatistics from '@/components/commerce/statistics'
+
 // 船期
 import SailSchedule from '@/components/sailSchedule/index'
 import HplSchedule from '@/components/sailSchedule/hplSchedule'
@@ -66,6 +70,14 @@ const router = new Router({
             {path: 'trainDetail',component: TrainDetail, name: 'trainDetail'},
             {path: 'questionList',component: QuestionList, name: 'questionList'},
             {path: 'questionDetail',component: QuestionDetail, name: 'questionDetail'}
+          ]
+        },
+        // 商务
+        {
+          path: 'commerce',
+          component: Commerce,
+          children: [
+            {path: 'statistics',component: CommerceStatistics, name: 'CommerceStatistics'}
           ]
         },
         

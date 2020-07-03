@@ -228,14 +228,14 @@ export default {
                 }else {
                     this.listData = JSON.parse(localStorage.getItem('bookList'))
                     this.$message({
-                        message: '请求数据失败，未获取到最新数据',
+                        message: '请求数据失败，未获取到订舱列表最新数据',
                         type: 'warning'
                     })
                 }
             }).catch(() => {
                 this.listData = JSON.parse(localStorage.getItem('bookList'))
                 this.$message({
-                    message: '连接服务器失败，未获取到最新数据',
+                    message: '连接服务器失败，未获取到订舱列表最新数据',
                     type: 'warning'
                 })
             })
