@@ -29,7 +29,7 @@ export default {
                 color: ['#2db7f5','#5d6977','#808bc6','#f9bf00','#7dc856'],
                 tooltip: {},
                 xAxis: {
-                    name: '(订舱员)',
+                    name: '(业务员)',
                     nameTextStyle: {
                         fontSize: 12,
                         color:'#333333',

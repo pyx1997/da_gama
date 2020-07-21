@@ -26,6 +26,7 @@ p {
   height: 100%;
 }
 .container {
+  box-sizing: border-box;
   padding: 40px 0 0 0px;
 }
 .aside {
@@ -55,4 +56,87 @@ p {
   line-height: 40px;
   font-size: 18px;
   border-bottom-width: 4px !important;
+}
+.listBox .cell {
+  line-height: 28px;
+  text-align: center;
+  color: #000 !important;
+}
+.el-table thead tr th {
+  background-color: #f2f2f2;
+}
+.el-table {
+  font-size: 12px !important;
+}
+.el-table th {
+  padding: 0 !important;
+}
+.el-table td {
+  padding: 0 !important;
+}
+.el-table tbody td .cell {
+  line-height: 38px !important;
+}
+.el-table::before {
+  height: 0px !important;
+}
+.el-table__fixed::before {
+  height: 0px !important;
+}
+.el-input__inner {
+  height: 30px !important;
+  line-height: 30px !important;
+}
+.el-select-dropdown__item.hover {
+  background: #E5F2FF;
+  color: #2277DA !important;
+}
+.contract .el-input__inner {
+  border: none;
+  width: 100px;
+}
+.meeting .el-input__inner {
+  width: 130px;
+}
+.selectMonth .el-input__inner {
+  text-indent: 30px;
+}
+.editItem .el-input__inner {
+  padding: 0 !important;
+  border: none !important;
+}
+.editItem .el-date-editor .el-range__icon {
+  display: none !important;
+}
+.editItem .el-date-editor .el-range-separator {
+  color: #666;
+  margin-right: 10px;
+}
+.el-time-panel__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.editItem .el-date-editor .el-range-input {
+  text-align: left !important;
+  width: 50px;
+}
+.editItem .el-date-editor--timerange.el-input__inner {
+  display: flex;
+  flex-direction: row;
+}
+.timeRange .el-icon-time:before {
+  display: none;
+}
+.editItem .el-date-editor--timerange.el-input__inner {
+  flex: 1 !important;
+}
+.el-dialog__header {
+  padding: 20px 20px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.el-dialog__body {
+  padding: 20px !important;
 }

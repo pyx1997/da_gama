@@ -18,6 +18,23 @@
 @red2: #e27772;
 @purple1: #af70ca;
 @or1: #fb9157;
+
+@fontA: 18px;
+@fontB: 16px;
+@fontC: 14px;
+@fontD: 12px;
+.fontSizeA {
+    font-size: @fontA;
+}
+.fontSizeB {
+    font-size: @fontB;
+}
+.fontSizeC {
+    font-size: @fontC;
+}
+.fontSizeD {
+    font-size: @fontD;
+}
 .border(@color) {
     border: 1px solid @color;
 }
@@ -53,6 +70,9 @@
 }
 .bgc-purple1 {
     background-color: @purple1;
+}
+.bgc-red1 {
+    background-color: @red1;
 }
 .bgc-red2 {
     background-color: @red2;
@@ -110,6 +130,9 @@
 }
 .border-main {
     .border(@mainColor)
+}
+.border-sCA1 {
+    .border(@sCA1)
 }
 .border-sCA3 {
     .border(@sCA3)
@@ -201,6 +224,10 @@
 .row-je {
     .flex-row;
     justify-content: flex-end;
+}
+.row-je-ac{
+    .row-je;
+    align-items: center;
 }
 
 .time .el-input__inner {

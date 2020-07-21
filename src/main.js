@@ -24,6 +24,7 @@ axios.defaults.baseURL = 'http://192.168.53.24/tp5seawatch/public'
 Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
 Vue.prototype.$http = axios
+
 // Vue.prototype.$saveFile = saveAs
 
 Vue.config.productionTip = false

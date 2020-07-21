@@ -87,9 +87,9 @@ export default {
                         fontSize: 12,
                         color: '#989898'
                     },
-                    legendSelect: {
-                        itemStyle : { normal: {label : {show: true}}}
-                    }
+                    // legendSelect: {
+                    //     itemStyle : { normal: {label : {show: true}}}
+                    // }
                     // selectedMode:false,  // 取消点击事件
                     // itemStyle : { normal: {label : {show: true}}} // 显示数值
                     
@@ -122,7 +122,7 @@ export default {
                 },
                 yAxis: {
                     // type: "value",
-                    splitLine: {show: false},
+                    // splitLine: {show: false},
                     name: '(TEU)',
                     nameTextStyle: {
                         fontSize: 12,
@@ -161,15 +161,22 @@ export default {
                             name: item.depart,
                             type: 'line',
                             stack: '总量',
-                            // legendSelect: {
-                            //     itemStyle : { normal: {label : {show: true}}}
-                            // },
+                            
                             // hoverAnimation:false,
                             sampling: 'average',
                             smooth: true,
                             areaStyle: {},
                             data: item.data,
-                            // itemStyle : { normal: {label : {show: true,textStyle: {color: "#666666"}}}}
+                            itemStyle : { normal: {label : {show: false}}},
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    textStyle: {
+                                        color: '#333333',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            }
                         })
                     })
                     localStorage.setItem('bookRiver',JSON.stringify({

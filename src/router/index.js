@@ -8,6 +8,8 @@ import Home from '@/components/index/home.vue'
 import Book from '@/components/book/book.vue'
 import BookIndex from '@/components/book/bookIndex'
 import BookList from '@/components/book/bookList'
+import InsertBook from '@/components/book/insertBook'
+import InsertList from '@/components/book/insertList'
 
 // 论坛
 import Forum from '@/components/forum/forum'
@@ -27,12 +29,17 @@ import QuestionDetail from '@/components/admin/questionDetail'
 // 商务
 import Commerce from '@/components/commerce/commerce'
 import CommerceStatistics from '@/components/commerce/statistics'
+import CommerceList from '@/components/commerce/commerceList'
 
 // 船期
 import SailSchedule from '@/components/sailSchedule/index'
 import HplSchedule from '@/components/sailSchedule/hplSchedule'
 import NbSchedule from '@/components/sailSchedule/nbSchedule'
 import Blank from '@/components/blank'
+
+// 会议室
+import Meeting from '@/components/meeting/meeting'
+import MeetingShow from '@/components/meeting/section'
 
 
 
@@ -45,6 +52,17 @@ const router = new Router({
       redirect: '/index/home'
     },
     {
+      path: '/insertBook',
+      component: InsertBook
+    },
+    {
+      path: '/meeting',
+      component: Meeting,
+      children: [
+        {path: 'show',component: MeetingShow}
+      ]
+    },
+    {
       path: '/index',
       component: Index,
       children: [
@@ -54,7 +72,9 @@ const router = new Router({
           component: Book,
           children: [
             {path: 'bookList', component: BookList},
-            {path: 'bookIndex',component: BookIndex}
+            {path: 'bookIndex',component: BookIndex},
+            {path: 'insertBook',component: InsertBook},
+            {path: 'insertList',component: InsertList}
           ]
         },
         {
@@ -77,7 +97,8 @@ const router = new Router({
           path: 'commerce',
           component: Commerce,
           children: [
-            {path: 'statistics',component: CommerceStatistics, name: 'CommerceStatistics'}
+            {path: 'statistics',component: CommerceStatistics, name: 'CommerceStatistics'},
+            {path: 'commerceList',component: CommerceList, name: 'CommerceList'}
           ]
         },
         

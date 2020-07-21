@@ -14,7 +14,7 @@
             </div>
             <el-date-picker v-model="timeValue" type="daterange" @change="selectDate" start-placeholder="下单开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']"></el-date-picker>
             
-            <div class="searchText bgc-blue2 color-main" @click="clickSearch">查询</div>
+            <!-- <div class="searchText bgc-blue2 color-main" @click="clickSearch">查询</div> -->
         </div>
         <div class="list flex-col">
             <div class="thead flex-row bgc-sCA3">
@@ -167,11 +167,13 @@ export default {
                 this.startTime = this.changeDate(this.timeValue[0])
                 this.endTime = this.changeDate(this.timeValue[1])
             }
+            this.clickSearch()
             // console.log('timeValue: ',this.timeValue)
             // console.log('selectDate:',this.changeDate(this.timeValue[0])+' - '+this.changeDate(this.timeValue[1]))
         },
         changeDate(str) {
             // console.log(str.getHour())
+            // console.log(str.getFullYear()+'-'+this.checkNum(str.getMonth()+1)+'-'+this.checkNum(str.getDate()))
             return str.getFullYear()+'-'+this.checkNum(str.getMonth()+1)+'-'+this.checkNum(str.getDate())
         },
         checkNum(num) {
@@ -210,8 +212,8 @@ export default {
                 limit: this.limit,
                 mbfnum: this.mbfnum,
                 mbfbookingno: this.mbfbookingno,
-                starttime: this.startTime,
-                endtime: this.endTime
+                startday: this.startTime,
+                endday: this.endTime
             }
             // console.log('obj:',obj)
             this.$http.post('/index/edisearch/iftmbf',obj).then((res) => {
@@ -225,6 +227,7 @@ export default {
                         item.mbfbookingtime = this.changeDate(new Date(item.mbfbookingtime*1000))
                     })
                     localStorage.setItem('bookList',JSON.stringify(this.listData))
+                    // console.log('bookList:',JSON.parse(localStorage.getItem('bookList')))
                 }else {
                     this.listData = JSON.parse(localStorage.getItem('bookList'))
                     this.$message({
@@ -262,6 +265,7 @@ export default {
             }
         },
         clickSearch() {
+            this.current = 1
             this.getList()
         },
         checkStatus(str) {

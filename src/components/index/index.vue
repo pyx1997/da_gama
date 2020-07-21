@@ -22,6 +22,7 @@ export default {
                 {text: '首页',selected: true,path: '/index/home'},
                 // {text: '船期',selected: false,path: '/index/sailSchedule/hplSchedule'},
                 {text: '订舱',selected: false,path: '/index/book/bookList'},
+                {text: '商务',selected: false,path: '/index/commerce/statistics'},
                 {text: '补料',selected: false,path: '/index/blank'},
                 {text: 'VGM',selected: false,path: '/index/blank'},
                 {text: '行政',selected: false,path: '/index/admin/itIndex'},
@@ -46,8 +47,10 @@ export default {
         }else if(path.search('/book') != -1) {
             this.clickNavItem(1)
         }else if(path.search('/admin') != -1) {
-            this.clickNavItem(4)
+            this.clickNavItem(5)
         }else if(path.search('/commerce') != -1) {
+            this.clickNavItem(2)
+            // this.$router.push('/index/commerce/statistics')
             // this.clickNavItem(4)
         }else {
             this.clickNavItem(3)

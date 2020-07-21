@@ -21,6 +21,8 @@ export default {
             asideList: [
                 {text: '订舱单列表',path: '/index/book/bookList',selected: true},
                 {text: '订舱统计',path: '/index/book/bookIndex',selected: false},
+                {text: '订舱录入',path: '/index/book/insertBook',selected: false},
+                {text: '录入列表',path: '/index/book/insertList',selected: false},
             ]
         }
     },
