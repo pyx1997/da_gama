@@ -1,5 +1,16 @@
 <template>
-    <div class="wrap row-jc container">
+    <div class="wrap col-ac container">
+        <div class="meetRoom row-jc">
+            <el-select v-model="type" placeholder="请选择类型">
+                <el-option
+                v-for="item in types"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+        
         <div class="table col-ac">
             <div class="thead fontSizeB color-sCA8 flex-row">
                 <div class="time">时间</div>
@@ -28,12 +39,18 @@
 export default {
     data() {
         return {
+            type: '7062',
+            types: [
+                {value: '7062',label: '7062 小会议室'},
+                {value: '7039',label: '7039 大会议室'},
+                {value: '7033',label: '7033 培训室'},
+            ],
             list: [
                 {
                     time: '09:00 ~ 09:30',
                     data: [
                         {week: '周一',state: 0,depart: '空闲'},
-                        {week: '周二',state: 0,depart: '空闲'},
+                        {week: '周二',state: 1,depart: '商务'},
                         {week: '周三',state: 0,depart: '空闲'},
                         {week: '周四',state: 0,depart: '空闲'},
                         {week: '周五',state: 0,depart: '空闲'}
@@ -58,6 +75,16 @@ export default {
                         {week: '周四',state: 1,depart: 'IT'},
                         {week: '周五',state: 1,depart: 'IT'},
                     ]
+                },
+                {
+                    time: '10:30 ~ 11:00',
+                    data: [
+                        {week: '周一',state: 1,depart: 'IT'},
+                        {week: '周二',state: 1,depart: 'IT'},
+                        {week: '周三',state: 1,depart: 'IT'},
+                        {week: '周四',state: 1,depart: 'IT'},
+                        {week: '周五',state: 1,depart: 'IT'},
+                    ]
                 }
             ]
         }
@@ -68,6 +95,9 @@ export default {
 }
 </script>
 <style scoped>
+.meetRoom {
+    margin-bottom: 20px;
+}
 .table {
     width: 90%;
 }

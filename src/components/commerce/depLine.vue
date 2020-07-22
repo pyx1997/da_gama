@@ -38,6 +38,35 @@ export default {
             }else {
                 this.startyear = this.changeMonth(this.comTime[0])
                 this.endyear = this.changeMonth(this.comTime[1])
+                var year1 = parseInt(this.startyear.split('-')[0])
+                var year2 = parseInt(this.endyear.split('-')[0])
+                var month1 = parseInt(this.startyear.split('-')[1])
+                var month2 = parseInt(this.endyear.split('-')[1])
+                if(year1 == year2) {
+                    if((month2-month1) != 1) {
+                        this.$message({
+                            message: '月份选择有误，必须选择相邻两个月',
+                            type: 'error'
+                        })
+                        return
+                    }
+                }else {
+                    if((year2-year1) !=1 ) {
+                        this.$message({
+                            message: '月份选择有误，必须选择相邻两个月',
+                            type: 'error'
+                        })
+                        return
+                    }else {
+                        if(month1 != 12 || month2 != 1) {
+                            this.$message({
+                                message: '月份选择有误，必须选择相邻两个月',
+                                type: 'error'
+                            })
+                            return
+                        }
+                    }
+                }
             }
             this.getList()
             // console.log(this.startyear,this.endyear)
@@ -168,10 +197,17 @@ export default {
         },  
         
         getList() {
-            this.$http.post('/index/djamatradeecharts/third',{routearea: '欧洲'}).then(res => {
+            this.$http.post('/index/djamatradeecharts/third',{routearea: '欧洲',startyear: this.startyear,endyear: this.endyear}).then(res => {
                 // console.log(res)
                 if(res.status == 200 && res.data.ret == 200) {
                     // console.log(res.data.data)
+                    if(res.data.data instanceof Array) {
+                        this.$message({
+                            message: '数据为空',
+                            type: 'warning'
+                        })
+                        return
+                    }
                     this.formatterData = res.data.data.areamanagerteusum
                     // console.log(this.formatterData)
                     this.$emit('getCom',res.data.data.years.join(' ~ '))

@@ -33,7 +33,7 @@
                 <!-- <div class="fontSizeC color-sCA1 border-sCA1 booking" @click="booking('7039大会议室')" v-if="checkToday">预定</div> -->
             </div>
             <div class="meetList border-sCA7">
-                <div class="meetItem row-ac fontSizeB color-sCA4" v-for="(item,index) in list7039" :key="index">
+                <!-- <div class="meetItem row-ac fontSizeB color-sCA4" v-for="(item,index) in list7039" :key="index">
                     <div class="meetTime">{{item.time}}</div>
                     <div class="meetUser" v-if=" !item.type">{{item.depart}}</div>
                     <div class="iconBox edit row-jc-ac" title="修改" v-if="isLogin && !item.type" @click="clickEdit(item)">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="color-green1 free" v-if="item.type" @click="bookNowTime(item.time)">空闲 去预定</div>
                     
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="meetRoom flex-col">
@@ -114,7 +114,6 @@
         </div>
         <div class="row-jc-ac bgc-opacity opacity" v-if="addShow">
             <div class="editDialog bgc-sCA1">
-                <!-- <div class="color-main fontSizeA editName">修改</div> -->
                 <div class="editItem row-ac color-sCA4">
                     <div class="fontSizeB editProperty">部门：</div>
                     <input class="fontSizeC editInput color-sCA4" v-model='addMeeting.depart' placeholder="请输入部门">
@@ -127,27 +126,50 @@
                     <div class="fontSizeB editProperty">用途：</div>
                     <input class="fontSizeC editInput color-sCA4" v-model='addMeeting.use' placeholder="请输入用途">
                 </div>
+                <div class="editItem row-ac color-sCA4"> 
+                    <div class="fontSizeB editProperty">重复：</div>
+                    <div class="row-ac ">
+                        <div class="fontSizeC">不重复</div>
+                        <div class="el-icon-arrow-down fontSizeB repeIcon"></div>
+                    </div>
+                    <div class="repeBox row-ac bgc-sCA1">
+                        <el-checkbox v-model="repe[0]">周一</el-checkbox>
+                        <el-checkbox v-model="repe[1]">周二</el-checkbox>
+                        <el-checkbox v-model="repe[2]">周三</el-checkbox>
+                        <el-checkbox v-model="repe[3]">周四</el-checkbox>
+                        <el-checkbox v-model="repe[4]">周五</el-checkbox>
+                    </div>
+                </div>
                 <div class="editItem row-ac color-sCA4">
                     <div class="fontSizeB editProperty">会议室：</div>
                     <input class="fontSizeC editInput color-sCA4" v-model='addMeeting.meetRoom' readonly>
                 </div>
-                <div class="editItem row-ac color-sCA4">
+                <div class="editItem row-ac color-sCA4 fontSizeB">
                     <div class="fontSizeB editProperty">会议时间：</div>
-                    <!-- <input class="fontSizeC editInput color-sCA4" v-model='editData.time'> -->
-                    <el-time-picker
-                        is-range
-                        v-model="addMeeting.time"
-                        range-separator="~"
-                        start= '09:00'
-                        end='22:00'
-                        step='00:15'
-                        format="HH:mm"
-                        selectableRange="09:30:00 - 12:00:00"
-                        start-placeholder="开始"
-                        end-placeholder="结束"
-                        placeholder="选择时间范围"
-                        @change="selectTimeAdd">
-                    </el-time-picker>
+                    <div class="timeRange row-ac">
+                        <el-time-select
+                            placeholder="开始"
+                            :clearable="false"
+                            v-model="addMeeting.time[0]"
+                            :picker-options="{
+                                start: '09:00',
+                                step: '00:30',
+                                end: '19:00'
+                            }">
+                        </el-time-select>
+                        <div class="line">~</div>
+                        <el-time-select
+                            :clearable="false"
+                            placeholder="结束"
+                            v-model="addMeeting.time[1]"
+                            :picker-options="{
+                                start: '09:00',
+                                step: '00:30',
+                                end: '19:00',
+                                minTime: startTime
+                            }">
+                        </el-time-select>
+                    </div>
                 </div>
                 <div class="row-ja fontSizeA">
                     <div class="editBtn bgc-main color-sCA1" @click="ensureAdd">确认</div>
@@ -157,7 +179,7 @@
             
         </div>
 
-        <div class="row-jc-ac bgc-opacity opacity" v-if="bookShow">
+        <!-- <div class="row-jc-ac bgc-opacity opacity" v-if="bookShow">
             <div class="editDialog bgc-sCA1">
                 <div class="editItem row-ac color-sCA4">
                     <div class="fontSizeB editProperty">部门：</div>
@@ -208,13 +230,14 @@
                 </div>
             </div>
             
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
 export default {
     data() {
         return {
+            repe: [false,false,false,false,false],
             startTime: '',
             endTime: '',
             selectableRange: '',
@@ -231,18 +254,11 @@ export default {
             editShow: false,
             editData: {},
             addMeeting: {
-                time: '',
+                time: ['',''],
                 depart: '',
                 applicant: '',
                 use: '',
                 meetRoom: ''
-            },
-            bookMeeting: {
-                time: '',
-                depart: '',
-                applicant: '',
-                use: '',
-                meetRoom: '7039大会议室'
             },
             list7039: [
                 {id: '0',time: '09:00 ~ 10:00',depart: '商务部',applicant: '', use: '',meetRoom: '7039大会议室'},
@@ -267,6 +283,7 @@ export default {
         checkToday() {
             var today = +new Date(new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate())
             var select = +new Date(this.selectDay)
+            // console.log(today,select,today<select)
             return today<select
             // console.log()
         }
@@ -308,19 +325,19 @@ export default {
             }
             this.editShow = true
         },
-        bookNowTime(time) {
-            this.bookShow = true
-            var arr = time.split(' ~ ')
-            this.startTime = arr[0]
-            this.endTime = arr[1]
-            this.$set(this.bookMeeting,'start',arr[0])
-            this.$set(this.bookMeeting,'end',arr[1])
-            this.$set(this.bookMeeting,'step','00:05')
-            console.log(this.bookMeeting)
+        // bookNowTime(time) {
+        //     this.bookShow = true
+        //     var arr = time.split(' ~ ')
+        //     this.startTime = arr[0]
+        //     this.endTime = arr[1]
+        //     this.$set(this.bookMeeting,'start',arr[0])
+        //     this.$set(this.bookMeeting,'end',arr[1])
+        //     this.$set(this.bookMeeting,'step','00:05')
+        //     console.log(this.bookMeeting)
             
-            this.selectableRange = arr.join('-')
-            console.log(this.selectableRange)
-        },
+        //     this.selectableRange = arr.join('-')
+        //     console.log(this.selectableRange)
+        // },
         cancelEdit() {
             this.editShow = false
         },
@@ -331,6 +348,7 @@ export default {
             this.addShow = false
         },
         ensureAdd() {
+            // console.log(this.addMeeting)
             this.addShow = false
         },
         cancelBook() {
@@ -350,6 +368,23 @@ export default {
 }
 </script>
 <style scoped>
+.repeIcon {
+    margin-left: 2px
+}
+.repeBox {
+    position: absolute;
+    left: 0;
+    top: 30px;
+    margin: auto;
+    z-index: 10000;
+    /* width: 200px; */
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+}
+.line {
+    padding: 0 10px;
+}
 .el-date-editor .el-range-input {
     text-align: left !important;
 }
@@ -357,7 +392,7 @@ export default {
     flex: 1;
 }
 .timeRange .el-date-editor.el-input {
-    width: 50%;
+    width: 40px;
 }
 .free {
     cursor: pointer;
@@ -399,6 +434,7 @@ export default {
     margin: 
 } */
 .editItem {
+    position: relative;
     margin-bottom: 30px;
     line-height: 30px;
     border-bottom: 1px solid rgba(217, 217, 217, 1);

@@ -1,15 +1,17 @@
 <template>
     <div class="wrap flex-col">
         <div class="top row-jb-ac">
-            <div class="meeting row-ac">
-                <el-select v-model="type" placeholder="请选择类型">
+            <div class="meeting row-ac color-main fontSizeB">
+                <div class="tag" @click="selectType('show')" :class="[type == 'show' ? 'selected' : 'bgc-blue2']">会议室使用情况</div>
+                <div class="tag" @click="selectType('book')" :class="[type == 'book' ? 'selected' : 'bgc-blue2']">预定会议室</div>
+                <!-- <el-select v-model="type" placeholder="请选择类型">
                     <el-option
                     v-for="item in types"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
                     </el-option>
-                </el-select>
+                </el-select> -->
             </div>
             
             <!-- <div class="tLeft color-sCA1 bgc-main row-jc-ac">
@@ -38,7 +40,7 @@
             </div>
         </div>
         <div class="section">
-            <weeker v-if="type=='week'"></weeker>
+            <weeker v-if="type=='show'"></weeker>
             <show :isLogin = "isLogin" :selectDay="selectDay" v-else></show>
             <!-- <router-view></router-view> -->
         </div>
@@ -65,7 +67,7 @@ import weeker from './week'
 export default {
     data() {
         return {
-            type: 'week',
+            type: 'show',
             types: [
                 {value: 'week',label: '按周查看'},
                 {value: 'day',label: '按天查看'}
@@ -99,6 +101,9 @@ export default {
     methods: {
         goLogin() {
             this.loginShow = true
+        },
+        selectType(type) {
+            this.type = type
         },
         closeLogin() {
             this.loginShow = false
@@ -141,6 +146,26 @@ export default {
 }
 </script>
 <style scoped>
+.tag {
+    margin-right: 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #888;
+    border-right: 2px solid #888;
+}
+.selected {
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    border-top: 2px solid #888;
+    border-left: 2px solid #888;
+    background: rgb(205, 228, 253)
+}
+.tag:hover{
+    background: rgb(205, 228, 253)
+}
 .top .el-date-editor.el-input {
   width: 180px;
 }
