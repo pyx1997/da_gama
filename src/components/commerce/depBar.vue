@@ -1,5 +1,9 @@
 <template>
-    <div class="wrap">
+    <div class="wrap flex-col">
+        <div class="row-ac select">
+            <el-radio v-model="select" label="1" @change="clickRadio">全选</el-radio>
+            <el-radio v-model="select" label="0" @change="clickRadio">全不选</el-radio>
+        </div>
         <div id="desbar1" class="echartsBox">
 
         </div>
@@ -9,7 +13,11 @@
 export default {
     data() {
         return {
-            
+            selected: '',
+            select: '1',
+            country: '',
+            series: '',
+            shipowner: ''
         }
     },
     props: ['routearea','startday','endday','contract'],
@@ -31,7 +39,19 @@ export default {
         }
     },
     methods: {
-        draw(coutry,shipowner,series) {
+        clickRadio() {
+            if(this.select == 1) {
+                for(var key in this.selected) {
+                    this.$set(this.selected,key,true)
+                } 
+            }else {
+                for(var key in this.selected) {
+                    this.$set(this.selected,key,false)
+                } 
+            }
+            this.draw(this.country,this.shipowner,this.series,this.selected)
+        },
+        draw(coutry,shipowner,series,selected) {
             var dom = document.getElementById('desbar1')
             var option = {
                 // color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3','#7289ab','#daa5aa','#413956','#315f47','#9a4360'],
@@ -54,6 +74,7 @@ export default {
                     icon: 'circle',
                     data: coutry,
                     itemHeight: 10,
+                    selected: selected
                     // itemWidth: 20,
                 },
                 tooltip: {
@@ -97,13 +118,14 @@ export default {
                 },
                 series: series,
                 grid: {
-                    height: "70%",
+                    height: "68%",
                     top: 120,
                 }
             }
             this.$echarts.init(dom).setOption(option,true)
         },     
         getList() {
+            
             if(this.contract == '全部') {
                 var contract = ''
             }else {
@@ -115,11 +137,14 @@ export default {
                 if(res.status == 200 && res.data.ret == 200) {
                     this.$emit('getdepTotal',res.data.data.teu)
                     // console.log(res.data.data)
+                    var selected = {}
                     var series = []
                     var destinationu = res.data.data.destinationu
                     destinationu.forEach((item,index) => {
                         destinationu[index] = `${item}(${res.data.data.countrysum[index]})`
+                        selected[destinationu[index]] = true
                     })
+                    this.select = '1'
                     var shipowner = res.data.data.shipowner
                     res.data.data.shipownerx.forEach((item,index) => {
                         series.push({
@@ -141,7 +166,13 @@ export default {
                         })
                     });
                     
-                    this.draw(destinationu,shipowner,series)
+                    this.country = destinationu
+                    var shipowner = res.data.data.shipowner
+                    this.shipowner = shipowner
+                    this.selected = selected
+                    this.series = series
+                    
+                    this.draw(destinationu,shipowner,series,selected)
                 }else {
                     this.$message({
                         message: '获取数据失败',
@@ -162,9 +193,12 @@ export default {
 .echartsBox {
     position: relative;
     z-index: 10000;
-    height: 100%;
+    flex: 1
 }
 .wrap {
     position: relative;
+}
+.select {
+    padding-bottom: 10px
 }
 </style>

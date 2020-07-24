@@ -194,6 +194,11 @@
   justify-content: center;
   align-items: center;
 }
+.col-as {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .row-js-ac {
   display: flex;
   flex-direction: row;

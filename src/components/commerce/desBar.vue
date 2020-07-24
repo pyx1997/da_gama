@@ -1,5 +1,10 @@
 <template>
-    <div class="wrap">
+    <div class="wrap flex-col">
+        
+        <div class="row-ac select">
+            <el-radio v-model="select" label="1" @change="clickRadio">全选</el-radio>
+            <el-radio v-model="select" label="0" @change="clickRadio">全不选</el-radio>
+        </div>
         <div id="desbar" class="echartsBox">
 
         </div>
@@ -9,7 +14,11 @@
 export default {
     data() {
         return {
-            
+            selected: '',
+            select: '1',
+            country: '',
+            series: '',
+            shipowner: ''
         }
     },
     props: ['routearea','startday','endday','contract'],
@@ -31,7 +40,19 @@ export default {
         }
     },
     methods: {
-        draw(coutry,shipowner,series) {
+        clickRadio() {
+            if(this.select == 1) {
+                for(var key in this.selected) {
+                    this.$set(this.selected,key,true)
+                } 
+            }else {
+                for(var key in this.selected) {
+                    this.$set(this.selected,key,false)
+                } 
+            }
+            this.draw(this.country,this.shipowner,this.series,this.selected)
+        },
+        draw(coutry,shipowner,series,selected) {
             var dom = document.getElementById('desbar')
             var option = {
                 // color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3','#7289ab','#daa5aa','#413956','#315f47','#9a4360'],
@@ -53,6 +74,7 @@ export default {
                 legend: {
                     icon: 'circle',
                     data: coutry,
+                    selected: selected,
                     itemHeight: 10,
                     // itemWidth: 20,
                 },
@@ -97,7 +119,7 @@ export default {
                 },
                 series: series,
                 grid: {
-                    height: "70%",
+                    height: "68%",
                     top: 120,
                 }
             }
@@ -116,12 +138,14 @@ export default {
                 if(res.status == 200 && res.data.ret == 200) {
                     this.$emit('getdesTotal',res.data.data.teu)
                     // console.log(res.data.data)
+                    var selected = {}
                     var series = []
                     var destinationu = res.data.data.destinationu
                     destinationu.forEach((item,index) => {
                         destinationu[index] = `${item}(${res.data.data.countrysum[index]})`
+                        selected[destinationu[index]] = true
                     })
-                    var shipowner = res.data.data.shipowner
+                    this.select = '1'
                     res.data.data.shipownerx.forEach((item,index) => {
                         series.push({
                             barWidth:26,
@@ -141,25 +165,12 @@ export default {
                             }
                         })
                     });
-                    // series.push({
-                    //     name: '合计',
-                    //         type: 'bar',
-                    //         // stack: 'TUE',
-                    //         data: res.data.data.shipownersum,
-                    //         barGap: '-100%',
-                    //         itemStyle:{ 
-                    //             normal:{ 
-                    //                 label: {
-                    //                     show: 'false',
-                    //                     position: 'top',
-                    //                     // textStyle:{ color:'#000' },
-                    //                 },
-                    //                 color:'rgba(128, 128, 128, 0)' 
-                    //             } 
-                    //         },
-                    // })
-                    
-                    this.draw(destinationu,shipowner,series)
+                    this.country = destinationu
+                    var shipowner = res.data.data.shipowner
+                    this.shipowner = shipowner
+                    this.selected = selected
+                    this.series = series
+                    this.draw(destinationu,shipowner,series,selected)
                 }else {
                     this.$message({
                         message: '获取数据失败',
@@ -177,10 +188,13 @@ export default {
 }
 </script>
 <style scoped>
+.select {
+    padding-bottom: 10px;
+}
 .echartsBox {
     position: relative;
     z-index: 10000;
-    height: 100%;
+    flex: 1
 }
 .wrap {
     position: relative;

@@ -197,7 +197,7 @@ export default {
     margin-left: 4px;
 }
 .lineBox .total {
-    top: 60px !important;
+    top: 86px !important;
 }
 .check {
     width: 100px;
@@ -209,7 +209,7 @@ export default {
 }
 .total {
     position: absolute;
-    top: 80px;
+    top: 106px;
     font-size: 14px;
     width: 100%;
     line-height: 28px;

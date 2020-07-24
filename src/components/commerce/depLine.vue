@@ -1,5 +1,9 @@
 <template>
-    <div class="wrap">
+    <div class="wrap flex-col">
+        <div class="row-ac select">
+            <el-radio v-model="select" label="1" @change="clickRadio">全选</el-radio>
+            <el-radio v-model="select" label="0" @change="clickRadio">全不选</el-radio>
+        </div>
         <div id="depLine" class="echartsBox">
 
         </div>
@@ -11,7 +15,12 @@ export default {
         return {
             startyear: '',
             endyear: '',
-            formatterData: []
+            formatterData: [],
+            selected: '',
+            select: '1',
+            week: '',
+            series: '',
+            areamanager: ''
         }
     },
     props: ['timeValue','comTime'],
@@ -31,6 +40,18 @@ export default {
         // }
     },
     methods: {
+        clickRadio() {
+            if(this.select == 1) {
+                for(var key in this.selected) {
+                    this.$set(this.selected,key,true)
+                } 
+            }else {
+                for(var key in this.selected) {
+                    this.$set(this.selected,key,false)
+                } 
+            }
+            this.draw(this.week,this.areamanager,this.series,this.selected)
+        },
         selectComMon() {
             if(!this.comTime){
                 this.endyear = ''
@@ -83,7 +104,7 @@ export default {
             // console.log(str.getFullYear()+'-'+this.checkNum(str.getMonth()+1))
             return str.getFullYear()+'-'+this.checkNum(str.getMonth()+1)
         },
-        draw(week,areamanager,series) {
+        draw(week,areamanager,series,selected) {
             var dom = document.getElementById('depLine')
             var self = this
             var option = {
@@ -114,6 +135,7 @@ export default {
                     icon: 'circle',
                     data: areamanager,
                     itemHeight: 10,
+                    selected: selected
                     // itemWidth: 20,
                 },
                 tooltip: {
@@ -208,10 +230,13 @@ export default {
                         })
                         return
                     }
+                    
+                    this.select = '1'
                     this.formatterData = res.data.data.areamanagerteusum
                     // console.log(this.formatterData)
                     this.$emit('getCom',res.data.data.years.join(' ~ '))
                     this.$emit('getDepweekTotal',res.data.data.teu)
+                    var selected = {}
                     var week = []
                     res.data.data.weeks.forEach((item,index) => {
                         item.forEach((item1,index1) => {
@@ -225,6 +250,9 @@ export default {
                     // console.log(week)
                     
                     var areamanager = res.data.data.countryarealist
+                    areamanager.forEach((item,index) => {
+                        selected[item] = true
+                    })
                     var series = []
                     res.data.data.weeksx.forEach((item,index) => {
                         item.forEach((item1,index1) => {
@@ -248,7 +276,11 @@ export default {
                             })
                         })
                     })
-                    this.draw(week,areamanager,series)
+                    this.areamanager = areamanager
+                    this.week = week
+                    this.selected = selected
+                    this.series = series
+                    this.draw(week,areamanager,series,selected)
                 }else {
                     this.$message({
                         message: '获取数据失败',
@@ -266,10 +298,13 @@ export default {
 }
 </script>
 <style scoped>
+.select {
+    padding-bottom: 10px;
+}
 .echartsBox {
     position: relative;
     z-index: 10000;
-    height: 100%;
+    flex: 1
 }
 .wrap {
     position: relative;

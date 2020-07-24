@@ -1,5 +1,9 @@
 <template>
-    <div class="wrap">
+    <div class="wrap flex-col">
+        <div class="row-ac select">
+            <el-radio v-model="select" label="1" @change="clickRadio">全选</el-radio>
+            <el-radio v-model="select" label="0" @change="clickRadio">全不选</el-radio>
+        </div>
         <div id="desLine" class="echartsBox">
 
         </div>
@@ -11,7 +15,12 @@ export default {
         return {
             startyear: '',
             endyear: '',
-            formatterData: []
+            formatterData: [],
+            selected: '',
+            select: '1',
+            week: '',
+            series: '',
+            areamanager: ''
         }
     },
     props: ['timeValue','comTime'],
@@ -32,6 +41,18 @@ export default {
         // }
     },
     methods: {
+        clickRadio() {
+            if(this.select == 1) {
+                for(var key in this.selected) {
+                    this.$set(this.selected,key,true)
+                } 
+            }else {
+                for(var key in this.selected) {
+                    this.$set(this.selected,key,false)
+                } 
+            }
+            this.draw(this.week,this.areamanager,this.series,this.selected)
+        },
         selectComMon() {
             if(!this.comTime){
                 this.endyear = ''
@@ -84,7 +105,7 @@ export default {
             // console.log(str.getFullYear()+'-'+this.checkNum(str.getMonth()+1))
             return str.getFullYear()+'-'+this.checkNum(str.getMonth()+1)
         },
-        draw(week,country,series) {
+        draw(week,country,series,selected) {
             var dom = document.getElementById('desLine')
             var self = this
             var option = {
@@ -115,6 +136,7 @@ export default {
                     icon: 'circle',
                     data: country,
                     itemHeight: 10,
+                    selected: selected
                     // itemWidth: 20,
                 },
                 tooltip: {
@@ -203,7 +225,7 @@ export default {
             this.$http.post('/index/djamatradeecharts/third',{routearea: '地中海',startyear: this.startyear,endyear: this.endyear}).then(res => {
                 // console.log(res)
                 if(res.status == 200 && res.data.ret == 200) {
-                    // console.log(res.data.data)
+                    console.log(res.data.data)
                     if(res.data.data instanceof Array) {
                         this.$message({
                             message: '数据为空',
@@ -211,6 +233,7 @@ export default {
                         })
                         return
                     }
+                    this.select = '1'
                     // res.data.data.length == 0
                     
                     this.$emit('getDesweekTotal',res.data.data.teu)
@@ -219,6 +242,7 @@ export default {
                     // console.log(res.data.data.months.join(','))
                     this.$emit('getCom',res.data.data.years.join(' ~ '))
                     var week = []
+                    var selected = {}
                     res.data.data.weeks.forEach((item,index) => {
                         item.forEach((item1,index1) => {
                             if(index == 0) {
@@ -230,6 +254,9 @@ export default {
                     })
                     
                     var areamanager = res.data.data.countryarealist
+                    areamanager.forEach((item,index) => {
+                        selected[item] = true
+                    })
                     var series = []
                     res.data.data.weeksx.forEach((item,index) => {
                         item.forEach((item1,index1) => {
@@ -253,6 +280,10 @@ export default {
                             })
                         })
                     })
+                    this.areamanager = areamanager
+                    this.week = week
+                    this.selected = selected
+                    this.series = series
                     this.draw(week,areamanager,series)
                 }else {
                     this.$message({
@@ -271,10 +302,13 @@ export default {
 }
 </script>
 <style scoped>
+.select {
+    padding-bottom: 10px;
+}
 .echartsBox {
     position: relative;
     z-index: 10000;
-    height: 100%;
+    flex: 1
 }
 .wrap {
     position: relative;

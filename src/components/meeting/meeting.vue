@@ -1,31 +1,33 @@
 <template>
     <div class="wrap flex-col">
+        <bookingBox class="fixed" :isLogin="isLogin" v-if="addShow" @changeAddShow="changeAddShow" :formData="formData" addType="add"></bookingBox>
         <div class="top row-jb-ac">
             <div class="meeting row-ac color-main fontSizeB">
-                <div class="tag" @click="selectType('show')" :class="[type == 'show' ? 'selected' : 'bgc-blue2']">会议室使用情况</div>
-                <div class="tag" @click="selectType('book')" :class="[type == 'book' ? 'selected' : 'bgc-blue2']">预定会议室</div>
-                <!-- <el-select v-model="type" placeholder="请选择类型">
+                <!-- <div class="tag" @click="selectType('show')" :class="[type == 'show' ? 'selected' : 'bgc-blue2']">会议室使用情况</div>
+                <div class="tag" @click="selectType('book')" :class="[type == 'book' ? 'selected' : 'bgc-blue2']">预定会议室</div> -->
+                <el-select v-model="type" placeholder="请选择类型">
                     <el-option
                     v-for="item in types"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
                     </el-option>
-                </el-select> -->
+                </el-select>
+                <div class="tag bgc-blue2" @click="booking">预定会议室</div>
             </div>
             
             <!-- <div class="tLeft color-sCA1 bgc-main row-jc-ac">
                 <div class="iconfont icon-huiyi"></div>
                 <div class="fontSizeA">会议室管理</div>
             </div> -->
-            <div class="row-jc-ac selectDate">
+            <!-- <div class="row-jc-ac selectDate" v-if="type !='show'">
                 <el-date-picker
                     v-model="selectDate"
                     type="date"
                     placeholder="选择日期"
                     :clearable="false">
                 </el-date-picker>
-            </div>
+            </div> -->
             <div class="tRight row-je-ac fontSizeB color-sCA4">
                 <div v-if="isLogin">您的权限：管理员</div>
                 <div v-else>您的权限：普通用户</div>
@@ -40,7 +42,7 @@
             </div>
         </div>
         <div class="section">
-            <weeker v-if="type=='show'"></weeker>
+            <weeker v-if="type=='week'"></weeker>
             <show :isLogin = "isLogin" :selectDay="selectDay" v-else></show>
             <!-- <router-view></router-view> -->
         </div>
@@ -64,10 +66,12 @@
 <script>
 import show from './section'
 import weeker from './week'
+import bookingBox from './bookMeeting'
 export default {
+    components: {bookingBox},
     data() {
         return {
-            type: 'show',
+            type: 'week',
             types: [
                 {value: 'week',label: '按周查看'},
                 {value: 'day',label: '按天查看'}
@@ -77,7 +81,9 @@ export default {
             userName: '',
             loginShow: false,
             selectDate: '',
-            selectDay: ''
+            selectDay: '',
+            addShow: false,
+            formData: {}
         }
     },
     watch: {
@@ -99,6 +105,23 @@ export default {
         this.selectDay = this.changeDate(this.selectDate)
     },
     methods: {
+        changeAddShow() {
+            this.addShow = false
+        },
+        booking() {
+            // this.$set(this.addMeeting,'meetRoom',str)
+            console.log('kk')
+            this.formData = {
+                time: ['',''],
+                depart: '',
+                applicant: '',
+                use: '',
+                date: '',
+                meetRoom: '7062 小会议室',
+                repeText: '不重复'
+            }
+            this.addShow = true
+        },
         goLogin() {
             this.loginShow = true
         },
@@ -146,23 +169,27 @@ export default {
 }
 </script>
 <style scoped>
+.fixed {
+    position: fixed;
+
+}
 .tag {
-    margin-right: 10px;
+    margin-left: 10px;
     border-radius: 2px;
     cursor: pointer;
     padding: 6px 10px;
-    border-left: 2px solid #fff;
+    /* border-left: 2px solid #fff;
     border-top: 2px solid #fff;
     border-bottom: 2px solid #888;
-    border-right: 2px solid #888;
+    border-right: 2px solid #888; */
 }
-.selected {
+/* .selected {
     border-right: 2px solid #fff;
     border-bottom: 2px solid #fff;
     border-top: 2px solid #888;
     border-left: 2px solid #888;
     background: rgb(205, 228, 253)
-}
+} */
 .tag:hover{
     background: rgb(205, 228, 253)
 }
