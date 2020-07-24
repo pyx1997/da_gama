@@ -104,7 +104,7 @@ export default {
         },
         
         // 点击预定
-        booking(str) {
+        booking() {
             // this.$set(this.addMeeting,'meetRoom',str)
             this.formData = {
                 time: ['',''],
