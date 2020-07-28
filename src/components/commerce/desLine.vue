@@ -225,7 +225,7 @@ export default {
             this.$http.post('/index/djamatradeecharts/third',{routearea: '地中海',startyear: this.startyear,endyear: this.endyear}).then(res => {
                 // console.log(res)
                 if(res.status == 200 && res.data.ret == 200) {
-                    console.log(res.data.data)
+                    // console.log(res.data.data)
                     if(res.data.data instanceof Array) {
                         this.$message({
                             message: '数据为空',

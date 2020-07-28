@@ -92,7 +92,7 @@ import depline from './depLine'
 import pie from './pie'
 import depbar from './depBar'
 import desbar from './desBar'
-import testline from './testLine'
+// import testline from './testLine'
 export default {
     data() {
         return {
@@ -127,7 +127,7 @@ export default {
         //     this.checkStr()
         // }
     },
-    components: {pie,desbar,depbar,desline,depline,testline},
+    components: {pie,desbar,depbar,desline,depline},
     created() {
         
     },

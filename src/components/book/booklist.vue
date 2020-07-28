@@ -223,8 +223,8 @@ export default {
                     this.total = res.data.data.total
                     this.listData = res.data.data.list
                     this.listData.forEach((item,index) => {
-                        item.mbftime = this.changeDate(new Date(item.mbftime*1000))
-                        item.mbfbookingtime = this.changeDate(new Date(item.mbfbookingtime*1000))
+                        if(item.mbftime) item.mbftime = this.changeDate(new Date(item.mbftime*1000))
+                        if(item.mbfbookingtime) item.mbfbookingtime = this.changeDate(new Date(item.mbfbookingtime*1000))
                     })
                     localStorage.setItem('bookList',JSON.stringify(this.listData))
                     // console.log('bookList:',JSON.parse(localStorage.getItem('bookList')))
@@ -278,6 +278,10 @@ export default {
             }
         },
         checkType(str) {
+            // console.log(str)
+            if(!str) {
+                return
+            }
             if(str.search('约单') != -1) {
                 return 'color-blue3'
             }else if(str.search('预定单') != -1) {

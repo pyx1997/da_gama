@@ -19,7 +19,7 @@ import '@/assets/css/frame.css'
 import './assets/iconfont/iconfont.css'
 
 // axios 在发送请求之前, 会将 baseUrl + '/users' 得到完整路径, 才会发送请求
-axios.defaults.baseURL = 'http://192.168.53.24/tp5seawatch/public'
+axios.defaults.baseURL = 'http://192.168.53.132/tp5seawatch/public'
 
 Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts

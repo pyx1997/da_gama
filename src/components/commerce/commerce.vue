@@ -16,6 +16,7 @@ export default {
             asideList: [
                 {text: '商务统计',path: '/index/commerce/statistics',selected: true},
                 {text: '商务列表',path: '/index/commerce/commerceList',selected: false},
+                {text: '商务录入',path: '/index/commerce/commerceInsert',selected: false},
             ]
         }
     },

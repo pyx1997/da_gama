@@ -16,6 +16,7 @@ export default {
             asideList: [
                 {text: 'IT首页',path: '/index/admin/itIndex',selected: true},
                 {text: '行政首页',path: '/index/admin/adminIndex',selected: false},
+                {text: '会议室管理',path: '/meeting',selected: false},
             ]
         }
     },

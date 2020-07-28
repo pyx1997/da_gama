@@ -8,6 +8,7 @@
                     <div class="year">{{showYear}}年</div>
                     <div class="el-icon-arrow-right icon" @click="rightArrow"></div>
                 </div>
+                <div class="tip fontSizeD color-sCA6">请选择你要查看的周数</div>
                 <div class="weeks flex-row color-sCA4 fontSizeB">
                     <div class="weekNum" :class="[(nowWeek == index+1 && selectYear == showYear)? 'bgc-main color-sCA1' : '']" v-for="(item,index) in weekNum" :key="index" @click="clickWeek(index+1)">{{index+1}}</div>
                 </div>
@@ -58,15 +59,15 @@
 export default {
     data() {
         return {
-            weekNum: 0,
-            nowWeek: 0,
-            showYear: '',
-            selectYear: '',
-            type: '7062',
+            weekNum: 0,//一年总周数
+            nowWeek: 0,// 当前周数
+            showYear: '',// 
+            selectYear: '',// 当前选择的年份
+            type: '7062 小会议室',
             types: [
-                {value: '7062',label: '7062 小会议室'},
-                {value: '7039',label: '7039 大会议室'},
-                {value: '7033',label: '7033 培训室'},
+                {value: '7062 小会议室',label: '7062 小会议室'},
+                {value: '7039 大会议室',label: '7039 大会议室'},
+                {value: '7033 培训室',label: '7033 培训室'},
             ],
             list: [
                 {
@@ -144,6 +145,15 @@ export default {
         rightArrow() {
             this.showYear++
         },
+        // 获取列表
+        async getList() {
+            var obj = {
+                meetingweekday: this.nowWeek,
+                meetingname: this.type
+            }
+            var res = this.$http.post('http://192.168.53.24/tp5seawatch/public/index/meetingroomlist/meetingweek',obj)
+            console.log(res)
+        },
         // 计算某年的星期数
         getDate(year) {
             // 一年第一天是周几
@@ -188,6 +198,11 @@ export default {
 }
 </script>
 <style scoped>
+.tip {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 20px;
+}
 .tableWrap {
     flex: 1;
     padding-left: 40px;
@@ -222,7 +237,7 @@ export default {
     cursor: pointer;
 }
 .weekTop {
-    padding: 30px 40px 40px;
+    padding: 30px 40px 20px;
 }
 .weekTop .icon {
     cursor: pointer;

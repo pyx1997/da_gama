@@ -101,36 +101,27 @@ export default {
                 {value: '7033 培训室',label: '7033 培训室'},
 
             ],
-            meetRoom: '',
-            depart: '',
-            applicant: '',
-            use: '',
-            date: '',
-            time: ['',''],
-            addMeeting: {},
-            repeText: ''
-            // addMeeting: {
-            //     time: ['',''],
-            //     depart: '',
-            //     applicant: '',
-            //     use: '',
-            //     date: '',
-            //     meetRoom: '7062 小会议室',
-            //     repeText: '不重复'
-            // },
+            meetRoom: '', //会议室名称
+            depart: '',// 部门
+            applicant: '',// 申请人
+            use: '',// 用途
+            date: '',// 日期
+            time: ['',''],// [开始时间，结束时间]
+            // addMeeting: {},
+            repeText: '', // 重复
         }
     },
     created() {
         // for(var key in this.formData) {
         //     this.addMeeting[key] = this.formData[key]
         // }
-        this.depart = this.formData.depart
-        this.applicant = this.formData.applicant
-        this.use = this.formData.use
-        this.date = this.formData.date
+        this.depart = this.formData.meetingdepart
+        this.applicant = this.formData.meetingpro
+        this.use = this.formData.meetinguse
+        this.date = this.formData.meetingday
         this.time = this.formData.time
-        this.repeText = this.formData.repeText
-        this.meetRoom = this.formData.meetRoom
+        this.repeText = this.formData.meetingreuse
+        this.meetRoom = this.formData.meetingname
         // console.log(this.addType)
         this.setRepe(this.repeText)
     },
@@ -174,6 +165,7 @@ export default {
             }
             
         },
+        // 点击取消
         cancelAdd() {
             // this.addShow = false
             this.repeShow = false
@@ -183,19 +175,75 @@ export default {
             })
             this.$emit('changeAddShow')
         },
+        // 点击确定时
         ensureAdd() {
-            // console.log(this.addMeeting)
-            // this.repeText = '不重复'
-            this.repe.forEach((item,index) => {
-                item.selected = false
-            })
-            this.repeShow = false
-            // console.log(this.addMeeting)
-            this.$emit('changeAddShow')
+            // 检查是否输入部门
+            if(this.depart.trim() == '') {
+                this.$message({
+                    message: '请输入部门',
+                    type: 'warning',
+                    duration: 1000,
+                })
+                return
+            }
+            // 检查是否输入申请人
+            if(this.applicant.trim() == '') {
+                this.$message({
+                    message: '请输入申请人',
+                    type: 'warning',
+                    duration: 1000,
+                })
+                return
+            }
+            // 检查是否选择日期
+            if(this.date == '') {
+                this.$message({
+                    message: '请选择日期',
+                    type: 'warning',
+                    duration: 1000,
+                })
+                return
+            }
+            // 检查是否选择时间
+            if(this.time[0].trim() == '') {
+                this.$message({
+                    message: '请选择会议开始时间',
+                    type: 'warning',
+                    duration: 1000,
+                })
+                return
+            }
+            if(this.time[1].trim() == '') {
+                this.$message({
+                    message: '请选择会议结束时间',
+                    type: 'warning',
+                    duration: 1000,
+                })
+                return
+            }
+            var date = this.changeDate(this.date)
+            // 录入或修改的值
+            var obj = {
+                meetingname: this.meetRoom,
+                meetingdepart: this.depart,
+                meetingpro: this.applicant,
+                meetinguse: this.use,
+                meetingstarttime: this.time[0],
+                meetingendtime: this.time[1],
+                meetingreuse: this.repeText,
+                meetingday: date
+            }
+            // console.log(obj)
+            // 会议预定（点击会议预定弹出）
+            if(this.addType == 'add') {
+                this.bookMeeting(obj)
+            }
+            
             // this.addShow = false
         },
         // 设置重复选中按钮
         setRepe(str) {
+            // console.log(str)
             if(str == '不重复') {
                 this.repe.forEach((item,index) => {
                     item.selected = false
@@ -211,8 +259,50 @@ export default {
                     var idx = this.repe.findIndex(item2 => {
                         return item1 == item2.text
                     })
-                    console.log(idx)
+                    // console.log(idx)
                     this.$set(this.repe[idx],'selected',true)
+                })
+            }
+        },
+        changeDate(str) {
+            // console.log(str.getHour())
+            return str.getFullYear()+'-'+this.checkNum(str.getMonth()+1)+'-'+this.checkNum(str.getDate())
+        },
+        checkNum(num) {
+            if(num < 10) {
+                return '0'+num
+            }else {
+                return num
+            }
+        },
+        // 预定会议
+        async bookMeeting(obj) {
+            // console.log(obj)
+            var res = await this.$http.post('http://192.168.53.24/tp5seawatch/public/index/meetingroom/',obj)
+            // console.log(res.data)
+            if(res.status == 200 && res.data.ret== 200) {
+                if(res.data.msg=='请求成功') {
+                    this.$message({
+                        message: '预定成功,请刷新页面查看',
+                        type: 'success'
+                    })
+                    this.repe.forEach((item,index) => {
+                        item.selected = false
+                    })
+                    this.repeShow = false
+                    // console.log(this.addMeeting)
+                    this.$emit('changeAddShow')
+                }else if(res.data.msg == '重复') {
+                    this.$message({
+                        message: '选择时间有冲突，预定失败',
+                        type: 'warning'
+                    })
+                }
+                
+            }else {
+                this.$message({
+                    message: '预定失败',
+                    type: 'warning'
                 })
             }
         }
@@ -258,6 +348,7 @@ export default {
     height: 100%;
     top: 0px;
     left: 0px;
+    z-index: 1000000;
 }
 .editDialog {
     padding: 30px 40px;

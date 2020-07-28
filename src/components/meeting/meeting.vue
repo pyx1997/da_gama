@@ -1,8 +1,9 @@
 <template>
     <div class="wrap flex-col">
-        <bookingBox class="fixed" :isLogin="isLogin" v-if="addShow" @changeAddShow="changeAddShow" :formData="formData" addType="add"></bookingBox>
+        
         <div class="top row-jb-ac">
             <div class="meeting row-ac color-main fontSizeB">
+                <!-- <div class="color-sCA4 back el-icon-arrow-left"></div> -->
                 <!-- <div class="tag" @click="selectType('show')" :class="[type == 'show' ? 'selected' : 'bgc-blue2']">会议室使用情况</div>
                 <div class="tag" @click="selectType('book')" :class="[type == 'book' ? 'selected' : 'bgc-blue2']">预定会议室</div> -->
                 <el-select v-model="type" placeholder="请选择类型">
@@ -42,8 +43,8 @@
             </div>
         </div>
         <div class="section">
-            <weeker v-if="type=='week'"></weeker>
-            <show :isLogin = "isLogin" :selectDay="selectDay" v-else></show>
+            <weeker v-if="type=='week'" :refresh="refresh"></weeker>
+            <show :isLogin = "isLogin" :selectDay="selectDay" v-else :refresh="refresh"></show>
             <!-- <router-view></router-view> -->
         </div>
         <div class="bgc-opacity loginWrap row-jc-ac" v-if="loginShow">
@@ -61,16 +62,18 @@
                 <div class="loginBtn fontSizeA color-sCA1 bgc-main" @click="clickLogin">登录</div>
             </div>
         </div>
+
+        <bookingbox class="fixed" :isLogin="isLogin" v-if="addShow" @changeAddShow="changeAddShow" :formData="formData" addType="add"></bookingbox>
     </div>
 </template>
 <script>
 import show from './section'
 import weeker from './week'
-import bookingBox from './bookMeeting'
+import bookingbox from './bookMeeting'
 export default {
-    components: {bookingBox},
     data() {
         return {
+            refresh: false,
             type: 'week',
             types: [
                 {value: 'week',label: '按周查看'},
@@ -95,7 +98,7 @@ export default {
             // console.log('date：',this.selectDay)
         }
     },
-    components: {show,weeker},
+    components: {show,weeker,bookingbox},
     created() {
         var isLogin = localStorage.getItem('isLogin')
         if(isLogin && isLogin=='login') {
@@ -107,18 +110,19 @@ export default {
     methods: {
         changeAddShow() {
             this.addShow = false
+            this.refresh = !this.refresh
         },
         booking() {
             // this.$set(this.addMeeting,'meetRoom',str)
-            console.log('kk')
+            // console.log('kk')
             this.formData = {
                 time: ['',''],
-                depart: '',
-                applicant: '',
-                use: '',
-                date: '',
-                meetRoom: '7062 小会议室',
-                repeText: '不重复'
+                meetingdepart: '',
+                meetingpro: '',
+                meetinguse: '',
+                meetingday: '',
+                meetingname: '7062 小会议室',
+                meetingreuse: '不重复'
             }
             this.addShow = true
         },
@@ -169,6 +173,10 @@ export default {
 }
 </script>
 <style scoped>
+.back {
+    font-size: 26px;
+    margin-right: 10px;
+}
 .fixed {
     position: fixed;
 

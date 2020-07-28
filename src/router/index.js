@@ -30,6 +30,7 @@ import QuestionDetail from '@/components/admin/questionDetail'
 import Commerce from '@/components/commerce/commerce'
 import CommerceStatistics from '@/components/commerce/statistics'
 import CommerceList from '@/components/commerce/commerceList'
+import CommerceInsert from '@/components/commerce/commerceInsert'
 
 // 船期
 import SailSchedule from '@/components/sailSchedule/index'
@@ -98,7 +99,8 @@ const router = new Router({
           component: Commerce,
           children: [
             {path: 'statistics',component: CommerceStatistics, name: 'CommerceStatistics'},
-            {path: 'commerceList',component: CommerceList, name: 'CommerceList'}
+            {path: 'commerceList',component: CommerceList, name: 'CommerceList'},
+            {path: 'commerceInsert',component: CommerceInsert, name: 'CommerceInsert'},
           ]
         },
         
