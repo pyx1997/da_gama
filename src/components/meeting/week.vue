@@ -130,6 +130,12 @@ export default {
             this.getDate(newValue)
         }
     },
+    props: ['refresh'],
+    watch: {
+        refresh() {
+            
+        }
+    },
     created() {
         this.selectYear = new Date().getFullYear()
         this.showYear = new Date().getFullYear()
@@ -137,6 +143,7 @@ export default {
         var date = new Date().getDate()
         this.getDate(this.selectYear)
         this.getNowWeek(this.selectYear,month,date)
+        this.getList()
     },
     methods: {
         leftArrow() {
