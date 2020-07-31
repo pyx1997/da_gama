@@ -197,7 +197,7 @@ export default {
             this.desMonthTotal = val
         },
         getDepMonthTotal(val) {
-            console.log('dddd')
+            // console.log('dddd')
             this.depMonthTotal = val
         },
         selectDate() {

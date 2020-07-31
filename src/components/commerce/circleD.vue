@@ -34,6 +34,7 @@ export default {
             this.selectComMon()
         },
         monthContract() {
+            // console.log('con')
             this.getList()
         }
     },
@@ -96,9 +97,10 @@ export default {
                 routearea: '地中海',
                 startyear: this.startyear,
                 endyear: this.endyear,
-                contracts: this.monthContract
+                contract: this.monthContract
             }
             var res = await this.$http.post('/index/djamatrademonth',obj)
+            // console.log(res)
             if(res.status == 200 && res.data.ret==200) {
                 this.$emit('getmonthtext',res.data.data.years.join(' ~ '))
                 var destinationu = res.data.data.destinationu
