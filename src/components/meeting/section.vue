@@ -28,10 +28,11 @@
                     <div class="meetItem row-ac fontSizeB color-sCA4" v-for="(item,index) in list7062" :key="index">
                         <div class="meetTime">{{item.time}}</div>
                         <div class="meetUser">{{item.meetingdepart}}</div>
+                        <div class="meetApplicant">{{item.meetingpro}}</div>
                         <div class="iconBox edit row-jc-ac" title="修改" v-if="isLogin" @click="clickEdit(item)">
                             <div class="el-icon-edit fontSizeB"></div>
                         </div>
-                        <div class="iconBox del row-jc-ac" title="删除" v-if="isLogin" @click="clickDel(item.meetingid)">
+                        <div class="iconBox del row-jc-ac" title="删除" v-if="isLogin" @click="clickDel(item.meetingid,item.meetingreuse)">
                             <div class="el-icon-delete fontSizeB"></div>
                         </div>
                         
@@ -52,10 +53,11 @@
                     <div class="meetItem row-ac fontSizeB color-sCA4" v-for="(item,index) in list7039" :key="index">
                         <div class="meetTime">{{item.time}}</div>
                         <div class="meetUser">{{item.meetingdepart}}</div>
+                        <div class="meetApplicant">{{item.meetingpro}}</div>
                         <div class="iconBox edit row-jc-ac" title="修改" v-if="isLogin" @click="clickEdit(item)">
                             <div class="el-icon-edit fontSizeB"></div>
                         </div>
-                        <div class="iconBox del row-jc-ac" title="删除" v-if="isLogin" @click="clickDel(item.meetingid)">
+                        <div class="iconBox del row-jc-ac" title="删除" v-if="isLogin" @click="clickDel(item.meetingid,item.meetingreuse)">
                             <div class="el-icon-delete fontSizeB"></div>
                         </div>
                         
@@ -72,10 +74,11 @@
                     <div class="meetItem row-ac fontSizeB color-sCA4" v-for="(item,index) in list7033" :key="index">
                         <div class="meetTime">{{item.time}}</div>
                         <div class="meetUser">{{item.meetingdepart}}</div>
+                        <div class="meetApplicant">{{item.meetingpro}}</div>
                         <div class="iconBox edit row-jc-ac" title="修改" v-if="isLogin" @click="clickEdit(item)">
                             <div class="el-icon-edit fontSizeB"></div>
                         </div>
-                        <div class="iconBox del row-jc-ac" title="删除" v-if="isLogin" @click="clickDel(item.meetingid)">
+                        <div class="iconBox del row-jc-ac" title="删除" v-if="isLogin" @click="clickDel(item.meetingid,item.meetingreuse)">
                             <div class="el-icon-delete fontSizeB"></div>
                         </div>
                         
@@ -84,7 +87,22 @@
             </div>
         </div>
         <booking class="fixed" :isLogin="isLogin" v-if="addShow" @changeAddShow="changeAddShow" :formData="formData" :addType="addType"></booking>
-        
+        <div class="row-jc-ac bgc-opacity opacity" v-if="delShow">
+            <div class="delWrap bgc-sCA1">
+                <div class="delTop fontSizeB row-ac">
+                    <div class='el-icon-info delIcon color-red1'></div>
+                    <div class="color-sCA8">此操作将永久删除数据，是否继续？</div>
+                </div>
+                <div class="row-jc-ac delRadio borderB-sCA7">
+                    <el-radio v-model="delType" label="one">删除本条记录</el-radio>
+                    <el-radio v-model="delType" label="all">删除所有</el-radio>
+                </div>
+                <div class="delBtns row-jc fontSizeB">
+                    <div class="bgc-main delEnsure color-sCA1" @click="clickDelEnsure">确定</div>
+                    <div class="border-main delCancel color-main" @click="clickDelCancel">取消</div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -93,6 +111,9 @@ export default {
     components: {booking},
     data() {
         return {
+            delShow: false,
+            delType: 'one',
+            delId: '',
             selectDate: new Date(),
             addType: 'add',
             formData: {},
@@ -138,7 +159,7 @@ export default {
         async getList() {
             var date = this.changeDate(this.selectDate)
              // 获取7062小会议室数据
-            var res1 = await this.$http.post('http://192.168.53.24/tp5seawatch/public/index/meetingroomlist/',{meetingday: date,meetingname: '7062 小会议室'})
+            var res1 = await this.$http.post('/index/meetingroomlist/',{meetingday: date,meetingname: '7062 小会议室'})
             if(res1.status == 200 && res1.data.ret == 200 ) {
                 this.list7062 = res1.data.data
                 // console.log(this.list7062)
@@ -150,7 +171,7 @@ export default {
                 })
             }
              // 获取7039大会议室数据
-            var res2 = await this.$http.post('http://192.168.53.24/tp5seawatch/public/index/meetingroomlist/',{meetingday: date,meetingname: '7039 大会议室'})
+            var res2 = await this.$http.post('/index/meetingroomlist/',{meetingday: date,meetingname: '7039 大会议室'})
             if(res2.status == 200 && res2.data.ret == 200 ) {
                 this.list7039 = res2.data.data
             }else {
@@ -161,7 +182,7 @@ export default {
                 })
             }
             // 获取7033培训室数据
-            var res3 = await this.$http.post('http://192.168.53.24/tp5seawatch/public/index/meetingroomlist/',{meetingday: date,meetingname: '7033 培训室'})
+            var res3 = await this.$http.post('/index/meetingroomlist/',{meetingday: date,meetingname: '7033 培训室'})
             if(res3.status == 200 && res3.data.ret == 200 ) {
                 this.list7033 = res3.data.data
             }else {
@@ -188,22 +209,62 @@ export default {
         //     this.addType = 'add'
         //     this.addShow = true
         // },
-        clickDel() {
-            this.$confirm('此操作将永久删除该记录, 是否继续?', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
+        // 点击删除
+        clickDel(id,re) {
+            this.delId = id
+            if(re == '不重复') {
+                this.$confirm('此操作将永久删除该记录, 是否继续?', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.delItem()
+                    // this.$message({
+                    //     type: 'success',
+                    //     message: '删除成功!'
+                    // });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
                 });
-            }).catch(() => {
+            }else {// 若为重复,弹出选择框
+                this.delShow = true
+            }
+            
+        },
+        clickDelEnsure() {
+            this.delShow = false
+            this.delItem()
+            
+        },
+        clickDelCancel() {
+            this.delShow = false
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            }); 
+        },
+        async delItem() {
+            var obj = {
+                meetingid: this.delId,
+                type: this.delType
+            }
+            var res = await this.$http.post('http://192.168.53.24/tp5seawatch/public/index/meetingroomchange/delete',obj)
+            if(res.status == 200 && res.data.ret == 200) {
                 this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });          
-            });
+                    message: '删除成功',
+                    type: 'success'
+                })
+                this.getList()
+            }else {
+                this.$message({
+                    message: '删除失败',
+                    type: 'warning'
+                })
+            }
+
         },
         clickEdit(item) {
             // console.log(item)
@@ -235,6 +296,39 @@ export default {
 }
 </script>
 <style scoped>
+.opacity {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 1000000;
+} 
+.delWrap {
+    padding: 20px;
+    border-radius: 6px;
+}
+.delIcon {
+    font-size: 30px;
+    margin-right: 10px;
+}
+.delRadio {
+    padding-bottom: 10px;
+}
+.delTop {
+    padding-bottom: 10px;
+}
+.delBtns {
+    margin-top: 20px;
+}
+.delBtns div{
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+.delEnsure {
+    margin-right: 20px;
+}
 .empty {
     text-align: center;
     line-height: 60px;
@@ -304,7 +398,20 @@ export default {
     border-right: 1px solid rgba(217, 217, 217, 1);
 }
 .meetUser {
-    flex: 1
+    flex: 1;
+    padding:0 10px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    border-right: 1px solid rgba(217, 217, 217, 1);
+}
+.meetApplicant {
+    flex: 1;
+    padding:0 10px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    /* border-right: 1px solid rgba(217, 217, 217, 1); */
 }
 .edit {
     color: #2277DA;

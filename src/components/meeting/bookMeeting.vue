@@ -35,7 +35,7 @@
                         :clearable="false">
                     </el-date-picker>
                 </div>
-                <div class="editItem row-ac color-sCA4"> 
+                <div class="editItem row-ac color-sCA4" v-if="addType=='add'"> 
                     <div class="fontSizeB editProperty">重复：</div>
                     <div class="row-jb-ac repeText" @click="clickRepe">
                         <div class="fontSizeC">{{repeText}}</div>
@@ -101,6 +101,7 @@ export default {
                 {value: '7033 培训室',label: '7033 培训室'},
 
             ],
+            id: '',
             meetRoom: '', //会议室名称
             depart: '',// 部门
             applicant: '',// 申请人
@@ -115,6 +116,7 @@ export default {
         // for(var key in this.formData) {
         //     this.addMeeting[key] = this.formData[key]
         // }
+        this.id = this.formData.meetingid
         this.depart = this.formData.meetingdepart
         this.applicant = this.formData.meetingpro
         this.use = this.formData.meetinguse
@@ -221,26 +223,54 @@ export default {
                 })
                 return
             }
-            var date = this.changeDate(this.date)
-            // 录入或修改的值
+            // 会议预定（点击会议预定弹出）
+            if(this.addType == 'add') {
+                this.bookMeeting()
+            }else if(this.addType == 'edit') { // 当为编辑时
+                // console.log(this.addType)
+                this.editMeeting()
+            }
+            
+            // this.addShow = false
+        },
+        // 修改会议记录
+        async editMeeting() {
+            if(typeof(this.date) == 'string') {
+                var date = this.date
+            }else {
+                var date = this.changeDate(this.date)
+            }
             var obj = {
+                meetingid: this.id,
+                meetingday: date,
                 meetingname: this.meetRoom,
                 meetingdepart: this.depart,
                 meetingpro: this.applicant,
                 meetinguse: this.use,
                 meetingstarttime: this.time[0],
-                meetingendtime: this.time[1],
-                meetingreuse: this.repeText,
-                meetingday: date
+                meetingendtime: this.time[1]
             }
-            // console.log(obj)
-            // 会议预定（点击会议预定弹出）
-            if(this.addType == 'add') {
-                this.bookMeeting(obj)
-            }
+            var res = await this.$http.post('/index/meetingroomchange',obj)
             
-            // this.addShow = false
+            // console.log(res)
+            if(res.status == 200 && res.data.ret== 200) {
+                this.$message({
+                    message: '修改成功',
+                    type: 'success',
+                    duration: 1000
+                })
+                
+                this.repeShow = false
+                this.$emit('changeAddShow')
+            }else {
+                this.$message({
+                    message: '修改失败',
+                    type: 'error',
+                    duration: 1000
+                })
+            }
         },
+        
         // 设置重复选中按钮
         setRepe(str) {
             // console.log(str)
@@ -276,9 +306,21 @@ export default {
             }
         },
         // 预定会议
-        async bookMeeting(obj) {
+        async bookMeeting() {
+            var date = this.changeDate(this.date)
+            // 录入或的值
+            var obj = {
+                meetingname: this.meetRoom,
+                meetingdepart: this.depart,
+                meetingpro: this.applicant,
+                meetinguse: this.use,
+                meetingstarttime: this.time[0],
+                meetingendtime: this.time[1],
+                meetingreuse: this.repeText,
+                meetingday: date
+            }
             // console.log(obj)
-            var res = await this.$http.post('http://192.168.53.24/tp5seawatch/public/index/meetingroom/',obj)
+            var res = await this.$http.post('/index/meetingroom/',obj)
             // console.log(res.data)
             if(res.status == 200 && res.data.ret== 200) {
                 if(res.data.msg=='请求成功') {

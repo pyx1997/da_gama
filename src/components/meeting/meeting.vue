@@ -116,6 +116,7 @@ export default {
             // this.$set(this.addMeeting,'meetRoom',str)
             // console.log('kk')
             this.formData = {
+                meetingid: '',
                 time: ['',''],
                 meetingdepart: '',
                 meetingpro: '',

@@ -29,9 +29,9 @@ export default {
         this.getList()
     },
     watch: {
-        timeValue() {
-            this.selectDate()
-        },
+        // timeValue() {
+        //     this.selectDate()
+        // },
         comTime() {
             this.selectComMon()
         }
@@ -157,7 +157,9 @@ export default {
                                 sum[i] += a[j+peoNum].value
                             }
                             // res +='合计：'+weeks[i-1]+'周 ~ '+sum[i-1]+'  '+weeks[i]+'周 ~ ' +sum[i] +' 增长 ~ '+((sum[i]-sum[i-1])/sum[i-1]*100).toFixed(2)
-                            res +='合计：'+((sum[i]-sum[i-1])/sum[i-1]*100).toFixed(2)+'%'
+                            // res +='合计：'+((sum[i]-sum[i-1])/sum[i-1]*100).toFixed(2)+'%'
+                            res +=`合计: `+((sum[i]-sum[i-1])/sum[i-1]*100).toFixed(2)+`%<br/>`
+                            res +=`${weeks[i-1]}周(${sum[i-1]} ) ${weeks[i]}周(${sum[i]}) `
                             sum[i-1] = 0
                             sum[i] = 0
                         }

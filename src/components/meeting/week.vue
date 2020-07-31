@@ -41,10 +41,17 @@
                         <div class="week">周六</div>
                     </div>
                     <div class="tbody">
-                        <div class="flex-row fontSizeB color-sCA1 item" v-for="(item,index) in list" :key="index">
+                        <div class="flex-row fontSizeB color-sCA1 item" v-for="(item,index) in beforeList" :key="index">
                             <div class="time color-sCA8">{{item.time}}</div>
-                            <div v-for="(item1,index1) in item.data" :key="index1" class="week" :class="[item1.state == 0 ? 'bgc-green2' : 'bgc-red2']">
-                                {{item1.depart}}
+                            <div v-for="(item1,index1) in item.data" :key="index1" class="week fontSizeC" :class="[item1.meetingstate == 0 ? 'bgc-green2' : 'bgc-red2']">
+                                {{item1.meetingdepart}}
+                            </div>
+                        </div>
+                        <div class="free fontSizeA color-sCA7">午休时间</div>
+                        <div class="flex-row fontSizeB color-sCA1 item" v-for="(item,index) in afterList" :key="index">
+                            <div class="time color-sCA8">{{item.time}}</div>
+                            <div v-for="(item1,index1) in item.data" :key="index1" class="week fontSizeC" :class="[item1.meetingstate == 0 ? 'bgc-green2' : 'bgc-red2']">
+                                {{item1.meetingdepart}}
                             </div>
                         </div>
                     </div>
@@ -69,57 +76,9 @@ export default {
                 {value: '7039 大会议室',label: '7039 大会议室'},
                 {value: '7033 培训室',label: '7033 培训室'},
             ],
-            list: [
-                {
-                    time: '09:00 ~ 09:30',
-                    data: [
-                        {week: '周日',state: 0,depart: '空闲'},
-                        {week: '周一',state: 0,depart: '空闲'},
-                        {week: '周二',state: 1,depart: '商务'},
-                        {week: '周三',state: 0,depart: '空闲'},
-                        {week: '周四',state: 0,depart: '空闲'},
-                        {week: '周五',state: 0,depart: '空闲'},
-                        {week: '周六',state: 0,depart: '空闲'},
-                    ]
-                },
-                {
-                    time: '09:30 ~ 10:00',
-                    data: [
-                        {week: '周日',state: 0,depart: '空闲'},
-                        {week: '周一',state: 0,depart: '空闲'},
-                        {week: '周二',state: 0,depart: '空闲'},
-                        {week: '周三',state: 0,depart: '空闲'},
-                        {week: '周四',state: 0,depart: '空闲'},
-                        {week: '周五',state: 0,depart: '空闲'},
-                        {week: '周六',state: 0,depart: '空闲'},
-                    ]
-                },
-                {
-                    time: '10:00 ~ 10:30',
-                    data: [
-                        {week: '周日',state: 0,depart: '空闲'},
-                        {week: '周一',state: 1,depart: 'IT'},
-                        {week: '周二',state: 1,depart: 'IT'},
-                        {week: '周三',state: 1,depart: 'IT'},
-                        {week: '周四',state: 1,depart: 'IT'},
-                        {week: '周五',state: 1,depart: 'IT'},
-                        {week: '周六',state: 0,depart: '空闲'},
-                    ]
-                },
-                {
-                    time: '10:30 ~ 11:00',
-                    data: [
-                        {week: '周日',state: 0,depart: '空闲'},
-                        {week: '周一',state: 1,depart: 'IT'},
-                        {week: '周二',state: 1,depart: 'IT'},
-                        {week: '周三',state: 1,depart: 'IT'},
-                        {week: '周四',state: 1,depart: 'IT'},
-                        {week: '周五',state: 1,depart: 'IT'},
-                        {week: '周六',state: 0,depart: '空闲'},
-                    ]
-                },
-                
-            ]
+            list: [],
+            beforeList: [],
+            afterList: []
         }
     },
     computed: {
@@ -128,15 +87,20 @@ export default {
     watch: {
         showYear(newValue,oldValue) {
             this.getDate(newValue)
+        },
+        nowWeek() {
+            this.getList()
+        },
+        refresh() {
+            this.getList()
+        },
+        type() {
+            this.getList()
         }
     },
     props: ['refresh'],
-    watch: {
-        refresh() {
-            
-        }
-    },
     created() {
+        // 进入页面选择年份为当前年份
         this.selectYear = new Date().getFullYear()
         this.showYear = new Date().getFullYear()
         var month = new Date().getMonth()+1
@@ -155,11 +119,27 @@ export default {
         // 获取列表
         async getList() {
             var obj = {
-                meetingweekday: this.nowWeek,
-                meetingname: this.type
+                meetingweekday: parseInt(this.nowWeek),
+                meetingname: this.type,
+                meetingyear: this.selectYear
             }
-            var res = this.$http.post('http://192.168.53.24/tp5seawatch/public/index/meetingroomlist/meetingweek',obj)
-            console.log(res)
+            // console.log(obj)
+            var res = await this.$http.post('/index/meetingroomlist/meetingweek',obj)
+            // console.log(res)
+            if(res.status == 200 && res.data.ret == 200) {
+                this.list = res.data.data
+                this.beforeList = this.list.filter((item,index) => {
+                    return index < 7
+                })
+                this.afterList = this.list.filter((item,index) => {
+                    return index >= 7
+                })
+            }else {
+                this.$message({
+                    message: '获取数据失败',
+                    type: 'warning'
+                })
+            }
         },
         // 计算某年的星期数
         getDate(year) {
@@ -197,6 +177,7 @@ export default {
             }
             this.nowWeek = weeks
         },
+        // 点击对应的周
         clickWeek(index) {
             this.nowWeek = index;
             this.selectYear = this.showYear
@@ -205,6 +186,11 @@ export default {
 }
 </script>
 <style scoped>
+.free {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #333;
+}
 .tip {
     width: 100%;
     text-align: center;
@@ -278,6 +264,9 @@ export default {
 }
 .week {
     width: 100px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
     /* max-width: 120px; */
     border-left: 1px solid #333
 }
