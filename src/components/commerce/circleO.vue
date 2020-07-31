@@ -99,7 +99,6 @@ export default {
                 contract: this.monthContract
             }
             var res = await this.$http.post('/index/djamatrademonth',obj)
-            // console.log(res)
             if(res.status == 200 && res.data.ret==200) {
                 this.$emit('getmonthtext',res.data.data.years.join(' ~ '))
                 var destinationu = res.data.data.destinationu
@@ -155,6 +154,11 @@ export default {
                 this.shipowner = shipowner
                 // console.log(destinationu,shipowner,series,selected)
                 this.draw(destinationu,shipowner,series,selected)
+            }else {
+                this.$message({
+                    message: '获取数据失败',
+                    type: 'error'
+                })
             }
             
         },

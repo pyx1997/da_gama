@@ -156,6 +156,11 @@ export default {
                 this.shipowner = shipowner
                 // console.log(destinationu,shipowner,series,selected)
                 this.draw(destinationu,shipowner,series,selected)
+            }else {
+                this.$message({
+                    message: '获取数据失败',
+                    type: 'error'
+                })
             }
             
         },
